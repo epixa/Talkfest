@@ -1,0 +1,18 @@
+[parameters]
+    ;;; Default database settings
+    database_driver   = pdo_mysql
+    database_host     = localhost
+    database_port     =
+    database_name     = DATABASE_NAME
+    database_user     = DATABASE_USERNAME
+    database_password = DATABASE_PASSWORD
+
+    ;;; Mailer settings to use in conjunction with bundled swiftmailer
+    mailer_transport        = sendmail
+    mailer_host             = localhost
+    mailer_user             =
+    mailer_password         =
+
+    ;;; Miscellaneous framework configurations
+    locale  = en
+    secret  = RANDOM_STRING   ; Random string that is unique to each deployment
