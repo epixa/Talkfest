@@ -1,0 +1,11 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <p>Edit Post</p>
+
+    <form action="{{ path('edit_post', {'id' : post.getId()}) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+
+        <input type="submit" value="Update" />
+    </form>
+{% endblock %}

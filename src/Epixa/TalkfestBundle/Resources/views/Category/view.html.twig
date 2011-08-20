@@ -1,0 +1,15 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <p>Category view: {{ category.getName() }}, page {{ page }}</p>
+
+    {% for post in posts %}
+        <section id="post-{{ post.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a>
+        </section>
+    {% else %}
+        <section id="no-posts">
+            <p>There are no posts that match that criteria.</p>
+        </section>
+    {% endfor %}
+{% endblock %}

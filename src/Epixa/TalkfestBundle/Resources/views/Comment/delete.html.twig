@@ -1,0 +1,10 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <p>Delete Comment: {{ comment.getId() }}</p>
+
+    <form action="{{ path('delete_comment', {'id' : comment.getId()}) }}" method="post">
+        <input type="submit" value="Delete" />
+        <a href="{{ path('view_post', {'id' : comment.getPost().getId()}) }}#comment-{{ comment.getId() }}">Cancel</a>
+    </form>
+{% endblock %}

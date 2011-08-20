@@ -1,0 +1,11 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <p>Delete Category: {{ category.getName() }} ({{ category.getId() }})</p>
+
+    <form action="{{ path('delete_category', {'id' : category.getId()}) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+
+        <input type="submit" value="Delete" />
+    </form>
+{% endblock %}

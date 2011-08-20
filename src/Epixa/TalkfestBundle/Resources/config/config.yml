@@ -1,0 +1,18 @@
+parameters:
+    talkfest.service.category.class: Epixa\TalkfestBundle\Service\CategoryService
+    talkfest.service.post.class: Epixa\TalkfestBundle\Service\PostService
+    talkfest.service.comment.class: Epixa\TalkfestBundle\Service\CommentService
+
+services:
+    talkfest.service.category:
+        class: %talkfest.service.category.class%
+        calls:
+          - [ setEntityManager, [@doctrine.orm.default_entity_manager] ]
+    talkfest.service.post:
+        class: %talkfest.service.post.class%
+        calls:
+          - [ setEntityManager, [@doctrine.orm.default_entity_manager] ]
+    talkfest.service.comment:
+        class: %talkfest.service.comment.class%
+        calls:
+          - [ setEntityManager, [@doctrine.orm.default_entity_manager] ]

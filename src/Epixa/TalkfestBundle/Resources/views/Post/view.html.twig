@@ -1,0 +1,17 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <p>Post view: {{ post.getTitle() }}</p>
+
+    <section class="post_comment">{{ post.getComment() }}</section>
+
+    {% for comment in comments %}
+        <section id="comment-{{ comment.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
+            {{ comment.getContent() }}
+        </section>
+    {% else %}
+        <section id="no-comments">
+            <p>There are no comments that match that criteria.</p>
+        </section>
+    {% endfor %}
+{% endblock %}

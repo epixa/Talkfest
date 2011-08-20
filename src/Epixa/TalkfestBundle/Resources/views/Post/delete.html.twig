@@ -1,0 +1,10 @@
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+    <p>Delete Post: {{ post.getId() }}</p>
+
+    <form action="{{ path('delete_post', {'id' : post.getId()}) }}" method="post">
+        <input type="submit" value="Delete" />
+        <a href="{{ path('view_post', {'id' : post.getId()}) }}">Cancel</a>
+    </form>
+{% endblock %}

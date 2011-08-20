@@ -1,0 +1,139 @@
+<?php
+/**
+ * Epixa - Talkfest
+ */
+
+namespace Epixa\TalkfestBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
+    Symfony\Component\HttpFoundation\Request,
+    Epixa\TalkfestBundle\Entity\Comment,
+    Epixa\TalkfestBundle\Form\Type\CommentType,
+    RuntimeException;
+
+/**
+ * Controller managing comments
+ *
+ * @category   Talkfest
+ * @package    Controller
+ * @copyright  2011 epixa.com - Court Ewing
+ * @license    Simplified BSD
+ * @author     Court Ewing (court@epixa.com)
+ */
+class CommentController extends Controller
+{
+    /**
+     * @Route("/add/{postId}", requirements={"postId"="\d+"}, name="add_comment")
+     * @Template()
+     *
+     * @param integer $postId
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return array
+     */
+    public function addAction($postId, Request $request)
+    {
+        $post = $this->getPostService()->get($postId);
+
+        $comment = new Comment($post);
+
+        $form = $this->createForm(new CommentType(), $comment);
+
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
+
+            if ($form->isValid()) {
+                $this->getCommentService()->add($comment);
+
+                $this->get('session')->setFlash('notice', 'Comment created');
+                $baseUrl = $this->generateUrl('view_post', array('id' => $post->getId()));
+                return $this->redirect($baseUrl . '#comment-' . $comment->getId());
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'post' => $post
+        );
+    }
+
+    /**
+     * @Route("/edit/{id}", requirements={"id"="\d+"}, name="edit_comment")
+     * @Template()
+     *
+     * @param integer $id
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return array
+     */
+    public function editAction($id, Request $request)
+    {
+        $service = $this->getCommentService();
+        $comment = $service->get($id);
+
+        $form = $this->createForm(new CommentType(), $comment);
+
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
+
+            if ($form->isValid()) {
+                $service->update($comment);
+
+                $this->get('session')->setFlash('notice', 'Comment updated');
+                $baseUrl = $this->generateUrl('view_post', array('id' => $comment->getPost()->getId()));
+                return $this->redirect($baseUrl . '#comment-' . $comment->getId());
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'comment' => $comment
+        );
+    }
+
+    /**
+     * @Route("/delete/{id}", requirements={"id"="\d+"}, name="delete_comment")
+     * @Template()
+     *
+     * @param integer $id
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return array
+     */
+    public function deleteAction($id, Request $request)
+    {
+        $service = $this->getCommentService();
+        $comment = $service->get($id);
+
+        if ($request->getMethod() == 'POST') {
+            $post = $comment->getPost();
+            $service->delete($comment);
+
+            $this->get('session')->setFlash('notice', 'Comment deleted');
+            return $this->redirect($this->generateUrl('view_post', array('id' => $post->getId())));
+        }
+
+        return array(
+            'comment' => $comment
+        );
+    }
+
+    /**
+     * Gets the post service
+     *
+     * @return \Epixa\TalkfestBundle\Service\PostService
+     */
+    public function getPostService()
+    {
+        return $this->get('talkfest.service.post');
+    }
+
+    /**
+     * Gets the comment service
+     *
+     * @return \Epixa\TalkfestBundle\Service\CommentService
+     */
+    public function getCommentService()
+    {
+        return $this->get('talkfest.service.comment');
+    }
+}
