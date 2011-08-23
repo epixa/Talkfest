@@ -1,18 +1,11 @@
-talkfest_home:
-    pattern:  /
-    defaults: { _controller: "EpixaTalkfestBundle:Category:index" }
-
 talkfest_category_annotations:
     resource: "@EpixaTalkfestBundle/Controller/CategoryController.php"
     type:     annotation
-    prefix:   /category
 
 talkfest_post_annotations:
     resource: "@EpixaTalkfestBundle/Controller/PostController.php"
     type:     annotation
-    prefix:   /post
 
 talkfest_comment_annotations:
     resource: "@EpixaTalkfestBundle/Controller/CommentController.php"
     type:     annotation
-    prefix:   /comment

@@ -24,9 +24,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
 class PostController extends Controller
 {
     /**
+     * Shows a list of all posts
+     *
+     * @Route("/", name="post_index")
+     * @Route("/{page}", requirements={"id"="\d+", "page"="\d+"}, name="post_index_page")
+     * @Template()
+     *
+     * @param integer $page
+     * @return array
+     */
+    public function indexAction($page = 1)
+    {
+        return array(
+            'categories' => $this->getCategoryService()->getAll(),
+            'posts' => $this->getPostService()->getAll($page),
+            'page' => $page
+        );
+    }
+    
+    /**
      * Shows a specific post including paginated associated comments
      *
-     * @Route("/{id}", requirements={"id"="\d+"}, name="view_post")
+     * @Route("/post/{id}", requirements={"id"="\d+"}, name="view_post")
      * @Template()
      *
      * @param integer $id   The unique identifier of the requested post
@@ -43,7 +62,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/add/{categoryId}", requirements={"categoryId"="\d+"}, name="add_post")
+     * @Route("/post/add/{categoryId}", requirements={"categoryId"="\d+"}, name="add_post")
      * @Template()
      *
      * @param integer $categoryId
@@ -76,7 +95,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", requirements={"id"="\d+"}, name="edit_post")
+     * @Route("/post/edit/{id}", requirements={"id"="\d+"}, name="edit_post")
      * @Template()
      *
      * @param integer $id
@@ -108,7 +127,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", requirements={"id"="\d+"}, name="delete_post")
+     * @Route("/post/delete/{id}", requirements={"id"="\d+"}, name="delete_post")
      * @Template()
      *
      * @param integer $id

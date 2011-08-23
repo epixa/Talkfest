@@ -58,3 +58,15 @@ footer {
     text-align: right;
     width: 940px;
 }
+
+aside {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    padding:  20px;
+}
+
+ul.fancy {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

@@ -40,6 +40,24 @@ class PostService extends AbstractDoctrineService
     }
 
     /**
+     * Gets a page of posts
+     * 
+     * @param int $page
+     * @return array
+     */
+    public function getAll($page = 1)
+    {
+        /* @var \Epixa\TalkfestBundle\Repository\PostRepository $repo */
+        $repo = $this->getEntityManager()->getRepository('Epixa\TalkfestBundle\Entity\Post');
+        $qb = $repo->getSelectQueryBuilder();
+
+        $repo->restrictToPage($qb, $page);
+        $repo->includeCategory($qb);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * Gets a page of posts associated with the given category
      * 
      * @param \Epixa\TalkfestBundle\Entity\Category $category

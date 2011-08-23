@@ -31,6 +31,18 @@ class PostRepository extends EntityRepository
     }
 
     /**
+     * Includes the post's category details with the query
+     * 
+     * @param \Doctrine\ORM\QueryBuilder $qb
+     * @return void
+     */
+    public function includeCategory(QueryBuilder $qb)
+    {
+        $qb->addSelect('category');
+        $qb->join('post.category', 'category');
+    }
+
+    /**
      * Restricts the given query to only posts that are associated with the given category
      *
      * @param \Doctrine\ORM\QueryBuilder $qb

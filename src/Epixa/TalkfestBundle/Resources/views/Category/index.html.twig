@@ -2,14 +2,18 @@
 
 {% block content %}
 
-    {% for category in categories %}
-        <section id="category-{{ category.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
-            <a href="{{ path('view_category', { 'id': category.getId() }) }}">{{ category.getName() }}</a>
-        </section>
-    {% else %}
-        <section id="no-categories">
-            <p>There are no categories to view.</p>
-        </section>
-    {% endfor %}
-        
+    <section id="categories">
+        <ul class="fancy">
+        {% for category in categories %}
+            <li id="category-{{ category.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
+                <a href="{{ path('view_category', { 'id': category.getId() }) }}">{{ category.getName() }}</a>
+            </li>
+        {% else %}
+            <li class="empty">
+                <p>There are no categories to view.</p>
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
+
 {% endblock %}

@@ -53,7 +53,7 @@ class Post
     protected $dateCreated;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Epixa\TalkfestBundle\Entity\Category", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="Epixa\TalkfestBundle\Entity\Category")
      * @var Category
      */
     protected $category;

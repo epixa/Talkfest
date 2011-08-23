@@ -26,25 +26,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
 class CategoryController extends Controller
 {
     /**
-     * Shows the index of call categories
-     * 
-     * @Template()
-     * @return array
-     */
-    public function indexAction()
-    {
-        $categories = $this->getCategoryService()->getAll();
-        
-        return array(
-            'categories' => $categories
-        );
-    }
-
-    /**
      * Shows the posts in a specific category
      * 
-     * @Route("/{id}", requirements={"id"="\d+"}, name="view_category")
-     * @Route("/{id}/{page}", requirements={"id"="\d+", "page"="\d+"}, name="view_category_page")
+     * @Route("/category/{id}", requirements={"id"="\d+"}, name="view_category")
+     * @Route("/category/{id}/{page}", requirements={"id"="\d+", "page"="\d+"}, name="view_category_page")
      * @Template()
      *
      * @param integer $id   The unique identifier of the requested category
@@ -63,7 +48,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/add", name="add_category")
+     * @Route("/category/add", name="add_category")
      * @Template()
      * 
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -92,7 +77,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", requirements={"id"="\d+"}, name="edit_category")
+     * @Route("/category/edit/{id}", requirements={"id"="\d+"}, name="edit_category")
      * @Template()
      *
      * @param integer $id
@@ -124,7 +109,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", requirements={"id"="\d+"}, name="delete_category")
+     * @Route("/category/delete/{id}", requirements={"id"="\d+"}, name="delete_category")
      * @Template()
      *
      * @param $id

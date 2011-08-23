@@ -25,7 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
 class CommentController extends Controller
 {
     /**
-     * @Route("/add/{postId}", requirements={"postId"="\d+"}, name="add_comment")
+     * @Route("/comment/add/{postId}", requirements={"postId"="\d+"}, name="add_comment")
      * @Template()
      *
      * @param integer $postId
@@ -59,7 +59,7 @@ class CommentController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", requirements={"id"="\d+"}, name="edit_comment")
+     * @Route("/comment/edit/{id}", requirements={"id"="\d+"}, name="edit_comment")
      * @Template()
      *
      * @param integer $id
@@ -92,7 +92,7 @@ class CommentController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", requirements={"id"="\d+"}, name="delete_comment")
+     * @Route("/comment/delete/{id}", requirements={"id"="\d+"}, name="delete_comment")
      * @Template()
      *
      * @param integer $id

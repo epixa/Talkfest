@@ -1,7 +1,6 @@
 {% extends 'EpixaTalkfestBundle::layout.html.twig' %}
 
 {% block content %}
-    <p>Category view: {{ category.getName() }}, page {{ page }}</p>
 
     <section id="posts">
         <ul class="fancy">
@@ -15,9 +14,22 @@
             </li>
         {% else %}
             <li class="empty">
-                <p>There are no posts that match that criteria.</p>
+                <p>There are no posts to view.</p>
             </li>
         {% endfor %}
         </ul>
     </section>
+
+    <aside>
+        <ul class="fancy">
+        {% for category in categories %}
+            <li><a href="{{ path('view_category', { 'id': category.getId() }) }}">{{ category.getName() }}</a></li>
+        {% else %}
+            <li class="empty">
+                <p>There are no categories.</p>
+            </li>
+        {% endfor %}
+        </ul>
+    </aside>
+
 {% endblock %}
