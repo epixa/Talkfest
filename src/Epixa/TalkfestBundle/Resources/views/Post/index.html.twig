@@ -1,15 +1,17 @@
 {% extends 'EpixaTalkfestBundle::layout.html.twig' %}
 
+{% block bodyClass %}{{ parent() }} split{% endblock %}
+
 {% block content %}
 
     <section id="posts">
         <ul class="fancy">
         {% for post in posts %}
-            <li id="post-{{ post.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <li id="post-{{ post.getId() }}" class="post {{ cycle(['odd', 'even'], loop.index) }}">
                 <a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a>
 
-                <section>
-                    <a class="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a>
+                <section class="options">
+                    posted in <a href="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a> by <a href="">Some dude</a>
                 </section>
             </li>
         {% else %}
@@ -21,6 +23,7 @@
     </section>
 
     <aside>
+        <h3>Categories:</h3>
         <ul class="fancy">
         {% for category in categories %}
             <li><a href="{{ path('view_category', { 'id': category.getId() }) }}">{{ category.getName() }}</a></li>
