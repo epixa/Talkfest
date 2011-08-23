@@ -8,7 +8,7 @@
         <ul class="fancy">
         {% for post in posts %}
             <li id="post-{{ post.getId() }}" class="post {{ cycle(['odd', 'even'], loop.index) }}">
-                <a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a>
+                <h3><a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a></h3>
 
                 <section class="options">
                     posted in <a href="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a> by <a href="">Some dude</a>

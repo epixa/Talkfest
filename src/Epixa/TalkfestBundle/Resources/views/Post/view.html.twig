@@ -1,17 +1,28 @@
 {% extends 'EpixaTalkfestBundle::layout.html.twig' %}
 
+{% block title %}{{ post.getTitle() }} - {% endblock %}
+
 {% block content %}
-    <p>Post view: {{ post.getTitle() }}</p>
+    <section class="post">
+        <header>
+            <h3><a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a></h3>
+            <section class="options">
+                posted in <a href="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a> by <a href="">Some dude</a>
+            </section>
+        </header>
 
-    <section class="post_comment">{{ post.getComment() }}</section>
+        {% if post.hasComment() %}
+        <section class="comment">
+            {{ post.getComment() }}
+        </section>
+        {% endif %}
+    </section>
 
-    {% for comment in comments %}
-        <section id="comment-{{ comment.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
-            {{ comment.getContent() }}
-        </section>
-    {% else %}
-        <section id="no-comments">
-            <p>There are no comments that match that criteria.</p>
-        </section>
-    {% endfor %}
+    <section class="comments">
+        {% for comment in comments %}
+            <section id="comment-{{ comment.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
+                {{ comment.getContent() }}
+            </section>
+        {% endfor %}
+    </section>
 {% endblock %}

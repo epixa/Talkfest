@@ -186,4 +186,14 @@ class Post
         $this->category = $category;
         return $this;
     }
+
+    /**
+     * Does the post have a comment associated with it?
+     * 
+     * @return bool
+     */
+    public function hasComment()
+    {
+        return $this->getComment() !== null;
+    }
 }
