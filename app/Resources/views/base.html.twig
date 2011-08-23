@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}{% endblock %}Talkfest</title>
+
+    {% block stylesheets %}
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/global.css') }}" />
+    {% endblock %}
+
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <!--[if lt IE 9]>
+    <noscript>
+         <strong>Warning!</strong>
+         Because your browser does not support HTML5, some elements are
+         simulated using JavaScript.  Unfortunately your browser has disabled
+         scripting. Please enable it in order to render this page.
+    </noscript>
+    <![endif]-->
+
+    <header>
+        <h1><a href="/">Talkfest</a></h1>
+    </header>
+
+    <section id="content">
+        {% block content %}{% endblock %}
+    </section>
+
+    <footer>
+        Powered by <a href="https://github.com/epixa/Talkfest">Talkfest</a>
+    </footer>
+
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

@@ -1,6 +1,6 @@
 talkfest_home:
     pattern:  /
-    defaults: { _controller: EpixaTalkfestBundle:Category:index }
+    defaults: { _controller: "EpixaTalkfestBundle:Category:index" }
 
 talkfest_category_annotations:
     resource: "@EpixaTalkfestBundle/Controller/CategoryController.php"
