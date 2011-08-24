@@ -89,8 +89,13 @@ body > footer {
 aside {
     background-color: #f0f0f0;
     border-radius: 20px;
+    margin-bottom: 20px;
     padding: 20px;
     overflow: hidden;
+}
+
+aside:last-child {
+    margin-bottom: 0;
 }
 
 aside div {
