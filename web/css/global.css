@@ -103,7 +103,11 @@ ul.fancy {
 ul.fancy li {
     border-bottom: 1px solid #f0f0f0;
     margin: 0;
-    padding: 5px 0;
+    padding: 7px 0 5px;
+}
+
+ul.fancy li h3 {
+    line-height: 1.2;
 }
 
 ul.fancy li:hover {
