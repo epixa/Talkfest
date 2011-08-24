@@ -246,7 +246,9 @@ aside ul.fancy li:last-child {
 }
 
 .form input[type='text'],
-.form textarea {
+.form textarea,
+.form select {
+    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 10px;
     font-size: 16px;
@@ -254,6 +256,13 @@ aside ul.fancy li:last-child {
     margin-bottom: 20px;
     padding: 8px 5px;
     width: 588px;
+}
+
+.form select {
+    -webkit-appearance: none;
+    cursor: pointer;
+    margin: 0 0 20px;
+    width: 600px;
 }
 
 .form textarea {

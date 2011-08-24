@@ -54,6 +54,7 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="Epixa\TalkfestBundle\Entity\Category")
+     * @Assert\NotBlank()
      * @var Category
      */
     protected $category;
@@ -62,14 +63,11 @@ class Post
     /**
      * Initializes a new Post
      *
-     * The creation date is set to now, and the category is set.
-     *
-     * @param Category $category
+     * The creation date is set to now.
      */
-    public function __construct(Category $category)
+    public function __construct()
     {
         $this->setDateCreated('now');
-        $this->setCategory($category);
     }
 
     /**

@@ -62,18 +62,23 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/post/add/{categoryId}", requirements={"categoryId"="\d+"}, name="add_post")
+     * @Route("/post/add", name="add_post")
      * @Template()
      *
      * @param integer $categoryId
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return array
      */
-    public function addAction($categoryId, Request $request)
+    public function addAction(Request $request)
     {
-        $category = $this->getCategoryService()->get($categoryId);
-        
-        $post = new Post($category);
+        $category = null;
+        $post = new Post();
+
+        $categoryId = $request->query->get('c');
+        if ($categoryId) {
+            $category = $this->getCategoryService()->get($categoryId);
+            $post->setCategory($category);
+        }
 
         $form = $this->createForm(new PostType(), $post);
 

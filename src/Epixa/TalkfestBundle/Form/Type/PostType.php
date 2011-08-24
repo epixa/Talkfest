@@ -31,6 +31,7 @@ class PostType extends AbstractType
     {
         $builder->add('title');
         $builder->add('comment');
+        $builder->add('category');
     }
 
     /**

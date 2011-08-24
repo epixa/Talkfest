@@ -4,15 +4,20 @@
 
 {% block content %}
     <section id="add_post" class="form">
-        <h2>Add Post to {{ category.getName() }}</h2>
+        <h2>Add Post{% if category %} to {{ category.getName() }}{% endif %}</h2>
 
-        <form action="{{ path('add_post', {'categoryId' : category.getId()}) }}" method="post" {{ form_enctype(form) }}>
+        <form action="{{ path('add_post') }}" method="post" {{ form_enctype(form) }}>
             <fieldset>
                 {{ form_widget(form) }}
             </fieldset>
 
             <fieldset class="options">
-                <input type="submit" value="Add" /> or <a href="{{ path('view_category', {'id': category.getId()}) }}">cancel</a>
+                <input type="submit" value="Add" /> or
+                {% if category %}
+                <a href="{{ path('view_category', {'id': category.getId()}) }}">cancel</a>
+                {% else %}
+                <a href="{{ path('post_index') }}">cancel</a>
+                {% endif %}
             </fieldset>
         </form>
     </section>
