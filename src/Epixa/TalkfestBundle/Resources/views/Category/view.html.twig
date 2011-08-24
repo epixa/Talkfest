@@ -1,9 +1,9 @@
 {% extends 'EpixaTalkfestBundle::layout.html.twig' %}
 
+{% block bodyClass %}{{ parent() }} split{% endblock %}
+
 {% block content %}
-    <section id="category">
-        <h2>Posts in {{ category.getName() }}</h2>
-    </section>
+    <h1 class="light">Posts in <strong>{{ category.getName() }}</strong></h1>
 
     <section id="posts">
         <ul class="fancy">
@@ -22,4 +22,14 @@
         {% endfor %}
         </ul>
     </section>
+
+    <aside>
+        <h2>In this category...</h2>
+
+        <div>
+            <a class="button" href="{{ path('add_post', { 'categoryId': category.getId() }) }}">Create New Post</a>
+        </div>
+
+        <p>Alternatively, you can <a href="">create a post</a> in a different category.</p>
+    </aside>
 {% endblock %}
