@@ -65,7 +65,6 @@ class PostController extends Controller
      * @Route("/post/add", name="add_post")
      * @Template()
      *
-     * @param integer $categoryId
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return array
      */
