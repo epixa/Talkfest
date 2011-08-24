@@ -101,9 +101,13 @@ ul.fancy {
 }
 
 ul.fancy li {
-    margin: 0 0 5px;
-    padding: 0 0 5px;
+    margin: 0;
+    padding: 5px 0;
     border-bottom: 1px solid #f0f0f0;
+}
+
+ul.fancy li:hover {
+    background-color: #f9f9f9;
 }
 
 ul.fancy li:last-child {
@@ -112,6 +116,10 @@ ul.fancy li:last-child {
 
 aside ul.fancy li {
     border-color: #fbfbfb;
+}
+
+aside ul.fancy li:hover {
+    background-color: transparent;
 }
 
 aside ul.fancy li:last-child {
