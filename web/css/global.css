@@ -14,26 +14,26 @@ a {
 
 h1 {
     font-size: 28px;
-    padding:  0;
     margin:  0;
+    padding:  0;
 }
 
 h2 {
     font-size: 24px;
-    padding:  0;
     margin:  0;
+    padding:  0;
 }
 
 h3 {
     font-size: 18px;
-    padding:  0;
     margin:  0;
+    padding:  0;
 }
 
 body > header {
     border-bottom: 1px solid #ccc;
-    overflow: hidden;
     margin: 0 auto 20px;
+    overflow: hidden;
     padding-top: 20px;
     width: 940px;
 }
@@ -58,8 +58,8 @@ body > header h1 a {
 
 body > section {
     margin: 0 auto;
-    width: 940px;
     overflow: hidden;
+    width: 940px;
 }
 
 body > footer {
@@ -80,11 +80,11 @@ aside {
 
 aside h3 {
     color: #555;
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
-body.split #posts {
+body.split > section > section {
     float: left;
     width: 600px;
 }
@@ -101,9 +101,9 @@ ul.fancy {
 }
 
 ul.fancy li {
+    border-bottom: 1px solid #f0f0f0;
     margin: 0;
     padding: 5px 0;
-    border-bottom: 1px solid #f0f0f0;
 }
 
 ul.fancy li:hover {
@@ -123,8 +123,8 @@ aside ul.fancy li:hover {
 }
 
 aside ul.fancy li:last-child {
-    padding-bottom: 0;
     border: none;
+    padding-bottom: 0;
 }
 
 .comment {
@@ -135,8 +135,8 @@ aside ul.fancy li:last-child {
     background-color: #fafafa;
     border: 1px solid #f0f0f0;
     border-radius: 5px;
-    padding: 10px;
     margin-top: 5px;
+    padding: 10px;
 }
 
 .post .options {
@@ -145,8 +145,8 @@ aside ul.fancy li:last-child {
 }
 
 .post .options a {
-    text-decoration: none;
     color: #999;
+    text-decoration: none;
 }
 
 .post .options a:hover {
@@ -157,12 +157,68 @@ aside ul.fancy li:last-child {
     background-color: #f6f6f6;
     border: 1px solid #f0f0f0;
     border-radius: 5px;
-    padding: 20px;
     margin-bottom: 10px;
+    padding: 20px;
 }
 
 #category h2 {
     color: #444;
     font-size: 22px;
     line-height: 1;
+}
+
+.form {
+    background-color: #f6f6f6;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.form h2 {
+    border-bottom:  1px dotted #ccc;
+    color: #333;
+    padding-bottom: 5px;
+}
+
+.form fieldset {
+    border: none;
+    border-bottom:  1px solid #ccc;
+    margin: 0;
+    padding: 20px 0 0;
+}
+
+.form label {
+    display: block;
+}
+
+.form input[type='text'],
+.form textarea {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding: 8px 5px;
+    width: 588px;
+}
+
+.form textarea {
+    height: 200px;
+}
+
+.form fieldset.options {
+    border-bottom: none;
+    letter-spacing: 1px;
+    padding-bottom: 0;
+}
+
+.form fieldset.options input[type='submit'] {
+    background-color: #ccc;
+    border: 1px solid #555;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    letter-spacing: 1px;
+    line-height: 38px;
+    padding:  0 20px;
 }
