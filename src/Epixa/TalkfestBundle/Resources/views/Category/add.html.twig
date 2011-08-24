@@ -1,11 +1,24 @@
 {% extends 'EpixaTalkfestBundle::layout.html.twig' %}
 
+{% block bodyClass %}{{ parent() }} split{% endblock %}
+
 {% block content %}
-    <p>Add Category</p>
+    <section id="add_post" class="form">
+        <h2>Add Category</h2>
 
-    <form action="{{ path('add_category') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+        <form action="{{ path('add_category') }}" method="post" {{ form_enctype(form) }}>
+            <fieldset>
+                {{ form_widget(form) }}
+            </fieldset>
 
-        <input type="submit" value="Add" />
-    </form>
+            <fieldset class="options">
+                <input type="submit" value="Add" /> or
+                {% if cancel %}
+                <a href="{{ cancel }}">cancel</a>
+                {% else %}
+                <a href="{{ path('post_index') }}">cancel</a>
+                {% endif %}
+            </fieldset>
+        </form>
+    </section>
 {% endblock %}
