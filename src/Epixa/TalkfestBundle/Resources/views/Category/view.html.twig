@@ -24,12 +24,12 @@
     </section>
 
     <aside>
-        <h2>In this category...</h2>
-
-        <div>
-            <a class="button" href="{{ path('add_post') }}?c={{ category.getId() }}">Create New Post</a>
-        </div>
-
-        <p>Alternatively, you can <a href="">create a post</a> in a different category.</p>
+        <section>
+            <h2>In this category...</h2>
+    
+            <div>
+                <a class="button" href="{{ path('add_post') }}?c={{ category.getId() }}">Create New Post</a>
+            </div>
+        </section>
     </aside>
 {% endblock %}

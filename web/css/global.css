@@ -86,7 +86,7 @@ body > footer {
     width: 940px;
 }
 
-aside {
+aside > section {
     background-color: #f0f0f0;
     border-radius: 20px;
     margin-bottom: 20px;
@@ -94,7 +94,7 @@ aside {
     overflow: hidden;
 }
 
-aside:last-child {
+aside > section:last-child {
     margin-bottom: 0;
 }
 
@@ -103,22 +103,22 @@ aside div {
     width: 100%;
 }
 
-aside h2 {
+aside > section h2 {
     color: #555;
     font-size: 22px;
     padding-bottom: 10px;
 }
 
-aside h3 {
+aside > section h3 {
     color: #555;
 }
 
-aside p {
+aside > section p {
     color: #222;
     font-size: 14px;
 }
 
-aside > :last-child {
+aside > section > :last-child {
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -130,7 +130,7 @@ body.split > section > section {
 
 body.split aside {
     float: right;
-    width: 280px;
+    width: 320px;
 }
 
 ul.fancy {

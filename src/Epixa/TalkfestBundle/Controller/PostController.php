@@ -94,7 +94,8 @@ class PostController extends Controller
 
         return array(
             'form' => $form->createView(),
-            'category' => $category
+            'category' => $category,
+            'cancel' => $request->query->get('cancel')
         );
     }
 

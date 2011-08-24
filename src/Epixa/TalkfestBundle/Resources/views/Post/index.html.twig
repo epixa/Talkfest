@@ -23,22 +23,24 @@
     </section>
 
     <aside>
-        <h3>Categories:</h3>
-        <ul class="fancy">
-        {% for category in categories %}
-            <li><a href="{{ path('view_category', { 'id': category.getId() }) }}">{{ category.getName() }}</a></li>
-        {% else %}
-            <li class="empty">
-                <p>There are no categories.</p>
-            </li>
-        {% endfor %}
-        </ul>
-    </aside>
+        <section>
+            <h3>Categories:</h3>
+            <ul class="fancy">
+            {% for category in categories %}
+                <li><a href="{{ path('view_category', { 'id': category.getId() }) }}">{{ category.getName() }}</a></li>
+            {% else %}
+                <li class="empty">
+                    <p>There are no categories.</p>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
 
-    <aside>
-        <div>
-            <a class="button" href="{{ path('add_post') }}">Create New Post</a>
-        </div>
+        <section>
+            <div>
+                <a class="button" href="{{ path('add_post') }}{% if page > 1 %}?cancel={{ path('post_index_page', {'page':page}) }}{% endif %}">Create New Post</a>
+            </div>
+        </section>
     </aside>
 
 {% endblock %}
