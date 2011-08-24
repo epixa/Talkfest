@@ -5,7 +5,7 @@
 {% block content %}
     <section class="post">
         <header>
-            <h3><a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a></h3>
+            <h2><a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a></h2>
             <section class="options">
                 posted in <a href="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a> by <a href="">Some dude</a>
             </section>

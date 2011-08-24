@@ -1,21 +1,23 @@
 {% extends 'EpixaTalkfestBundle::layout.html.twig' %}
 
 {% block content %}
-    <p>Category view: {{ category.getName() }}, page {{ page }}</p>
+    <section id="category">
+        <h2>Posts in {{ category.getName() }}</h2>
+    </section>
 
     <section id="posts">
         <ul class="fancy">
         {% for post in posts %}
-            <li id="post-{{ post.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a>
+            <li id="post-{{ post.getId() }}" class="post {{ cycle(['odd', 'even'], loop.index) }}">
+                <h3><a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a></h3>
 
-                <section>
-                    <a class="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a>
+                <section class="options">
+                    posted by <a href="">Some dude</a>
                 </section>
             </li>
         {% else %}
             <li class="empty">
-                <p>There are no posts that match that criteria.</p>
+                <p>There are no posts to view.</p>
             </li>
         {% endfor %}
         </ul>
