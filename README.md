@@ -1,7 +1,9 @@
 Talkfest
 ==========
 
-Talkfest is a PHP 5.3 forum based on the Symfony 2 framework.
+Talkfest is a PHP 5.3 forum based on the Symfony 2 framework that meshes some of the key features of traditional forum software with the commenting functionality similar to that of sites like reddit and hacker news.
+
+This is still in active development and should be considered very unstable.
 
 ## Installation
 
