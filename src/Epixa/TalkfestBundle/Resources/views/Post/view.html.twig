@@ -18,9 +18,13 @@
         {% endif %}
     </section>
 
+    <section>
+        {{ form | raw }}
+    </section>
+
     <section class="comments">
         {% for comment in comments %}
-            <section id="comment-{{ comment.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }}">
+            <section id="comment-{{ comment.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }} comment">
                 {{ comment.getContent() }}
             </section>
         {% endfor %}

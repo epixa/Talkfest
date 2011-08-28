@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
     Symfony\Component\HttpFoundation\Request,
+    Epixa\TalkfestBundle\Entity\Post,
     Epixa\TalkfestBundle\Entity\Comment,
     Epixa\TalkfestBundle\Form\Type\CommentType,
     RuntimeException;
@@ -25,17 +26,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
 class CommentController extends Controller
 {
     /**
-     * @Route("/comment/add/{postId}", requirements={"postId"="\d+"}, name="add_comment")
      * @Template()
      *
-     * @param integer $postId
+     * @param Post $post
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return array
      */
-    public function addAction($postId, Request $request)
+    public function addAction(Post $post, Request $request)
     {
-        $post = $this->getPostService()->get($postId);
-
         $comment = new Comment($post);
 
         $form = $this->createForm(new CommentType(), $comment);

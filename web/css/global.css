@@ -290,3 +290,62 @@ aside ul.fancy li:last-child {
     line-height: 38px;
     padding:  0 20px;
 }
+
+.simple_form input[type='text'],
+.simple_form textarea,
+.simple_form select {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.2;
+    padding: 8px 5px;
+    width: 588px
+}
+
+.simple_form select {
+    -webkit-appearance: none;
+    cursor: pointer;
+    margin: 0;
+    width: 600px;
+}
+
+.simple_form textarea {
+    height: 100px;
+}
+
+.simple_form fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.simple_form fieldset:first-child {
+    margin-top: 20px;
+}
+
+.simple_form fieldset.options input[type='submit'] {
+    background-color: #ccc;
+    border: 1px solid #555;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 2;
+    margin:  0;
+    padding: 0 10px;
+}
+
+.comments {
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+.comments .comment {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.comments .comment:last-child {
+    border: none;
+}
