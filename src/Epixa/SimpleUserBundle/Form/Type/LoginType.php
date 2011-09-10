@@ -30,7 +30,7 @@ class LoginType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('username');
-        $builder->add('password');
+        $builder->add('password', 'password');
     }
 
     /**

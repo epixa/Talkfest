@@ -6,9 +6,7 @@
 namespace Epixa\SimpleUserBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface,
-    Doctrine\ORM\Mapping as ORM,
-    Epixa\SimpleUserBundle\Validator\Constraints as SimpleUserAssert,
-    Epixa\SimpleUserBundle\Hasher\Hasher;
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * A representation of a user
@@ -18,8 +16,6 @@ use Symfony\Component\Security\Core\User\UserInterface,
  * @copyright  2011 epixa.com - Court Ewing
  * @license    Simplified BSD
  * @author     Court Ewing (court@epixa.com)
- *
- * @SimpleUserAssert\Authentication
  */
 abstract class User implements UserInterface
 {
@@ -43,16 +39,38 @@ abstract class User implements UserInterface
     protected $email;
 
     /**
-     * @ORM\Column(name="pass_hash", type="string", length="60")
+     * @ORM\Column(name="password", type="string", length="88")
      * @var string
      */
-    protected $passHash;
+    protected $password;
 
     /**
-     * @var \Epixa\SimpleUserBundle\Hasher\Hasher|null
+     * @ORM\Column(name="salt", type="string", length="32")
+     * @var string
      */
-    protected $passwordHasher = null;
+    protected $salt;
 
+
+    /**
+     * Constructs the user's unique password salt
+     * 
+     * @throws \RuntimeException
+     */
+    public function __construct()
+    {
+        $strong = false;
+        $salt = base64_encode(openssl_random_pseudo_bytes(32, $strong));
+
+        if ($salt === false) {
+            throw new \RuntimeException('No salt could be determined');
+        }
+
+        if ($strong === false) {
+            throw new \RuntimeException('The resulting hash was not created using a strong algorithm');
+        }
+
+        $this->salt = $salt;
+    }
 
     /**
      * Gets the unique identifier for this entity
@@ -66,7 +84,7 @@ abstract class User implements UserInterface
 
     /**
      * Sets the username
-     * 
+     *
      * @param string $username
      * @return User *Fluent interface*
      */
@@ -78,7 +96,7 @@ abstract class User implements UserInterface
 
     /**
      * Gets the username
-     * 
+     *
      * @return string
      */
     public function getUsername()
@@ -88,7 +106,7 @@ abstract class User implements UserInterface
 
     /**
      * Sets the email
-     * 
+     *
      * @param string $email
      * @return User *Fluent interface*
      */
@@ -109,52 +127,26 @@ abstract class User implements UserInterface
     }
 
     /**
-     * Gets the password hash
+     * Sets the user's password hash
      *
-     * @return string
-     */
-    public function getPassHash()
-    {
-        return $this->passHash;
-    }
-
-    /**
-     * Sets the user's password
-     *
-     * The password is hashed using the given hasher object and stored in passHash.
-     * The plaintext password is never to be stored.
-     * 
      * @param $password
      * @return User *Fluent interface*
      */
     public function setPassword($password)
     {
-        if (!$this->passwordHasher) {
-            throw new \RuntimeException('No password hasher configured');
-        }
-
-        $this->passHash = $this->passwordHasher->hash($password);
+        $this->password = (string)$password;
         return $this;
-    }
-
-    public function getPassword()
-    {
-        return '';
     }
 
     /**
-     * Sets the hasher to be used for hashing the user password
+     * Gets the user's password hash
      * 
-     * @param \Epixa\SimpleUserBundle\Hasher\Hasher $hasher
-     * @return User *Fluent interface*
+     * @return string
      */
-    public function setPasswordHasher(Hasher $hasher)
+    public function getPassword()
     {
-        $this->passwordHasher = $hasher;
-        return $this;
+        return $this->password;
     }
-
-
 
     /**
      * Returns the roles granted to the user.
@@ -167,13 +159,13 @@ abstract class User implements UserInterface
     }
 
     /**
-     * Returns the salt.
+     * Returns the password salt
      *
-     * @return string The salt
+     * @return string
      */
     public function getSalt()
     {
-        return 'blah';
+        return $this->salt;
     }
 
     /**
@@ -183,7 +175,6 @@ abstract class User implements UserInterface
      */
     public function eraseCredentials()
     {
-
     }
 
     /**

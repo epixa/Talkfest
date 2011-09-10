@@ -3,20 +3,23 @@ security:
         connection: default
 
     providers:
-        epixa_simpleuserbundle:
-            id: epixa_simple_user.service.user
+        fos_userbundle:
+            id: fos_user.user_manager
 
     firewalls:
         main:
             pattern: ^/
             form_login:
-                provider: epixa_simpleuserbundle
+                provider: fos_userbundle
             logout:       true
             anonymous:    true
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/post/add$, role: ROLE_USER }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/post/add, role: ROLE_USER }
+        - { path: ^/admin/, role: ROLE_ADMIN }
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER

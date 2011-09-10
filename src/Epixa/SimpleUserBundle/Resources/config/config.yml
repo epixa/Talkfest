@@ -6,10 +6,3 @@ services:
     epixa_simple_user.service.user:
         class: %epixa_simple_user.service.user.class%
         arguments: [ @doctrine.orm.default_entity_manager, %epixa_simple_user.model.user.class% ]
-
-    epixa_simple_user.validator.authentication:
-        class: %epixa_simple_user.validator.authentication.class%
-        calls:
-          - [ setUserService, [@epixa_simple_user.service.user] ]
-        tags:
-            - { name: validator.constraint_validator, alias: epixa_simple_user_validator_authentication }

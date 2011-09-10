@@ -8,6 +8,7 @@ namespace Epixa\SimpleUserBundle\Service;
 use Symfony\Component\Security\Core\User\UserProviderInterface,
     Symfony\Component\Security\Core\User\UserInterface,
     Symfony\Component\Security\Core\Exception\UsernameNotFoundException,
+    Epixa\SimpleUserBundle\Entity\User,
     Doctrine\ORM\EntityManager,
     Doctrine\ORM\NoResultException;
 
@@ -41,6 +42,18 @@ class UserService implements UserProviderInterface
     {
         $this->setEntityManager($em);
         $this->class = $em->getClassMetadata($class)->name;
+    }
+
+    /**
+     * Adds a new user to the system
+     * 
+     * @param \Epixa\SimpleUserBundle\Entity\User $user
+     * @return void
+     */
+    public function add(User $user)
+    {
+        $this->em->persist($user);
+        $this->em->flush();
     }
 
     /**
