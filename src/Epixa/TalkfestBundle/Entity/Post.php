@@ -48,9 +48,17 @@ class Post
 
     /**
      * @ORM\Column(name="date_created", type="datetime")
+     * @Assert\NotBlank()
      * @var \DateTime
      */
     protected $dateCreated;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Epixa\TalkfestBundle\Entity\User")
+     * @Assert\NotBlank()
+     * @var User
+     */
+    protected $author;
 
     /**
      * @ORM\ManyToOne(targetEntity="Epixa\TalkfestBundle\Entity\Category")
@@ -63,11 +71,14 @@ class Post
     /**
      * Initializes a new Post
      *
-     * The creation date is set to now.
+     * The creation date is set to now and sets the post's author.
+     * 
+     * @param User $author
      */
-    public function __construct()
+    public function __construct(User $author)
     {
         $this->setDateCreated('now');
+        $this->setAuthor($author);
     }
 
     /**
@@ -160,6 +171,28 @@ class Post
         }
 
         $this->dateCreated = $date;
+        return $this;
+    }
+
+    /**
+     * Gets the user that authored this post
+     *
+     * @return User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Sets the user that authored this post
+     *
+     * @param User $user
+     * @return Post *Fluent interface*
+     */
+    public function setAuthor(User $user)
+    {
+        $this->author = $user;
         return $this;
     }
 

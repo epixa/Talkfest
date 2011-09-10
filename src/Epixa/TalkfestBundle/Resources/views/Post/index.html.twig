@@ -11,7 +11,7 @@
                 <h3><a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a></h3>
 
                 <section class="options">
-                    posted in <a href="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a> by <a href="">Some dude</a>
+                    posted in <a href="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a> by <a href="">{{ post.getAuthor() }}</a>
                 </section>
             </li>
         {% else %}

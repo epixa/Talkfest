@@ -77,8 +77,9 @@ class PostController extends Controller
      */
     public function addAction(Request $request)
     {
+        $user = $this->get('security.context')->getToken()->getUser();
         $category = null;
-        $post = new Post();
+        $post = new Post($user);
 
         $categoryId = $request->query->get('c');
         if ($categoryId) {

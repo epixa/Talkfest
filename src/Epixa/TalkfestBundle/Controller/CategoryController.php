@@ -67,7 +67,7 @@ class CategoryController extends Controller
                 $this->getCategoryService()->add($category);
 
                 $this->get('session')->setFlash('notice', 'Category created');
-                return $this->redirect($this->generateUrl('talkfest_home'));
+                return $this->redirect($this->generateUrl('post_index_page'));
             }
         }
         
@@ -132,7 +132,7 @@ class CategoryController extends Controller
                 $service->delete($deletionOptions);
 
                 $this->get('session')->setFlash('notice', 'Category deleted');
-                return $this->redirect($this->generateUrl('talkfest_home'));
+                return $this->redirect($this->generateUrl('post_index_page'));
             }
         }
 
