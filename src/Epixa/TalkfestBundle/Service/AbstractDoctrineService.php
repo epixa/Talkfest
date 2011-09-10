@@ -32,7 +32,7 @@ abstract class AbstractDoctrineService
      */
     public function setEntityManager(EntityManager $em)
     {
-        $this->entityManager = $em;
+        $this->em = $em;
         return $this;
     }
 
@@ -43,6 +43,6 @@ abstract class AbstractDoctrineService
      */
     public function getEntityManager()
     {
-        return $this->entityManager;
+        return $this->em;
     }
 }

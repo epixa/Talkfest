@@ -1,6 +1,8 @@
     <section id="add_comment" class="simple_form">
         <form action="#add_comment" method="post" {{ form_enctype(form) }}>
             <fieldset>
+                {{ form_errors(form) }}
+
                 {{ form_widget(form.content) }}
                 {{ form_errors(form.content) }}
 

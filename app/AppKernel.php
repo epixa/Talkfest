@@ -18,7 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Epixa\TalkfestBundle\EpixaTalkfestBundle(),
-            new FOS\UserBundle\FOSUserBundle(),
+            //new FOS\UserBundle\FOSUserBundle(),
+            new Epixa\SimpleUserBundle\EpixaSimpleUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

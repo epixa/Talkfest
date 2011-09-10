@@ -58,12 +58,16 @@ jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
 
-# FriendsOfSymfony UserBundle Configuration
-fos_user:
-    db_driver: orm
-    firewall_name: main
+# Epixa SimpleUserBundle Configuration
+epixa_simple_user:
     user_class: Epixa\TalkfestBundle\Entity\User
-    encoder:
-        algorithm:          sha512
-        encode_as_base64:   false
-        iterations:         1
+
+# FriendsOfSymfony UserBundle Configuration
+# fos_user:
+#     db_driver: orm
+#     firewall_name: main
+#     user_class: Epixa\TalkfestBundle\Entity\User
+#     encoder:
+#         algorithm:          sha512
+#         encode_as_base64:   false
+#         iterations:         1
