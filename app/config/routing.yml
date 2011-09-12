@@ -1,12 +1,6 @@
 EpixaTalkfestBundle:
     resource: "@EpixaTalkfestBundle/Resources/config/routing.yml"
 
-#EpixaSimpleUserBundle:
-#    resource: "@EpixaSimpleUserBundle/Resources/config/routing.yml"
-
-#EpixaUserBundle:
-#    resource: "@EpixaUserBundle/Resources/config/routing.yml"
-
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 

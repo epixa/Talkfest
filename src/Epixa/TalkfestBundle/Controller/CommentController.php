@@ -34,7 +34,8 @@ class CommentController extends Controller
      */
     public function addAction(Post $post, Request $request)
     {
-        $comment = new Comment($post);
+        $user = $this->get('security.context')->getToken()->getUser();
+        $comment = new Comment($post, $user);
 
         $form = $this->createForm(new CommentType(), $comment);
 

@@ -58,10 +58,6 @@ jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
 
-# Epixa SimpleUserBundle Configuration
-#epixa_simple_user:
-#    user_class: Epixa\TalkfestBundle\Entity\User
-
 # FriendsOfSymfony UserBundle Configuration
 fos_user:
     db_driver: orm

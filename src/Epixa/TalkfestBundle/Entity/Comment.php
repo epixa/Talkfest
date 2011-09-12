@@ -54,9 +54,18 @@ class Comment
     protected $author;
 
 
-    public function __construct(Post $post)
+    /**
+     * Initializes a new Comment
+     *
+     * The comment's post and author is set.
+     *
+     * @param Post $post
+     * @param User $author
+     */
+    public function __construct(Post $post, User $author)
     {
         $this->setPost($post);
+        $this->setAuthor($author);
     }
 
     /**

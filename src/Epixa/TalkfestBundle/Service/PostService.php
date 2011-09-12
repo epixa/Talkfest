@@ -6,6 +6,9 @@
 namespace Epixa\TalkfestBundle\Service;
 
 use Doctrine\ORM\NoResultException,
+    Symfony\Component\Security\Acl\Domain\ObjectIdentity,
+    Symfony\Component\Security\Acl\Permission\MaskBuilder,
+    Symfony\Component\Security\Acl\Domain\UserSecurityIdentity,
     Epixa\TalkfestBundle\Entity\Category,
     Epixa\TalkfestBundle\Entity\Post,
     Epixa\TalkfestBundle\Entity\Comment;
@@ -87,6 +90,20 @@ class PostService extends AbstractDoctrineService
         $em = $this->getEntityManager();
         $em->persist($post);
         $em->flush();
+
+        // creating the ACL
+        $aclProvider = $this->container->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($post);
+        $acl = $aclProvider->createAcl($objectIdentity);
+
+        // retrieving the security identity of the currently logged-in user
+        $securityContext = $this->container->get('security.context');
+        $user = $securityContext->getToken()->getUser();
+        $securityIdentity = UserSecurityIdentity::fromAccount($user);
+
+        // grant owner access
+        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_EDIT);
+        $aclProvider->updateAcl($acl);
 
         return $post;
     }

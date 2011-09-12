@@ -6,13 +6,10 @@ parameters:
 services:
     talkfest.service.category:
         class: %talkfest.service.category.class%
-        calls:
-          - [ setEntityManager, [@doctrine.orm.default_entity_manager] ]
+        arguments: [@service_container]
     talkfest.service.post:
         class: %talkfest.service.post.class%
-        calls:
-          - [ setEntityManager, [@doctrine.orm.default_entity_manager] ]
+        arguments: [@service_container]
     talkfest.service.comment:
         class: %talkfest.service.comment.class%
-        calls:
-          - [ setEntityManager, [@doctrine.orm.default_entity_manager] ]
+        arguments: [@service_container]

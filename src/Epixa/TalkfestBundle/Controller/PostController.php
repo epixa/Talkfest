@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
     Symfony\Component\HttpFoundation\Request,
+    JMS\SecurityExtraBundle\Annotation\Secure,
     Epixa\TalkfestBundle\Entity\Post,
     Epixa\TalkfestBundle\Form\Type\PostType;
 
@@ -71,6 +72,7 @@ class PostController extends Controller
     /**
      * @Route("/post/add", name="add_post")
      * @Template()
+     * @Secure(roles="ROLE_USER")
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return array
@@ -110,6 +112,7 @@ class PostController extends Controller
     /**
      * @Route("/post/edit/{id}", requirements={"id"="\d+"}, name="edit_post")
      * @Template()
+     * @Secure(roles="ROLE_USER")
      *
      * @param integer $id
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -119,6 +122,10 @@ class PostController extends Controller
     {
         $service = $this->getPostService();
         $post = $service->get($id);
+
+        if (!$this->get('security.context')->isGranted('EDIT', $post)) {
+            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
 
         $form = $this->createForm(new PostType(), $post);
 
@@ -142,6 +149,7 @@ class PostController extends Controller
     /**
      * @Route("/post/delete/{id}", requirements={"id"="\d+"}, name="delete_post")
      * @Template()
+     * @Secure(roles="ROLE_ADMIN")
      *
      * @param integer $id
      * @param \Symfony\Component\HttpFoundation\Request $request
