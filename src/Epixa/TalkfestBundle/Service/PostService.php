@@ -136,9 +136,12 @@ class PostService extends AbstractDoctrineService
      */
     public function delete(Post $post)
     {
+        $aclProvider = $this->container->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($post);
+        $aclProvider->deleteAcl($objectIdentity);
+
         $em = $this->getEntityManager();
         $em->remove($post);
-        // TODO: Remove the associated comment thread, if any
         $em->flush();
     }
 }
