@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
     Symfony\Component\HttpFoundation\Request,
+    JMS\SecurityExtraBundle\Annotation\Secure,
     Epixa\TalkfestBundle\Entity\Category,
     Epixa\TalkfestBundle\Form\Type\CategoryType,
     Epixa\TalkfestBundle\Form\Type\DeleteCategoryType,
@@ -50,6 +51,7 @@ class CategoryController extends Controller
     /**
      * @Route("/category/add", name="add_category")
      * @Template()
+     * @Secure(roles="ROLE_ADMIN")
      * 
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return array|\Symfony\Bundle\FrameworkBundle\Controller\RedirectResponse
@@ -80,6 +82,7 @@ class CategoryController extends Controller
     /**
      * @Route("/category/edit/{id}", requirements={"id"="\d+"}, name="edit_category")
      * @Template()
+     * @Secure(roles="ROLE_ADMIN")
      *
      * @param integer $id
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -112,6 +115,7 @@ class CategoryController extends Controller
     /**
      * @Route("/category/delete/{id}", requirements={"id"="\d+"}, name="delete_category")
      * @Template()
+     * @Secure(roles="ROLE_ADMIN")
      *
      * @param $id
      * @param \Symfony\Component\HttpFoundation\Request $request
