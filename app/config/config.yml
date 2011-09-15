@@ -58,12 +58,21 @@ jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
 
+    
+
 # FriendsOfSymfony UserBundle Configuration
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: Epixa\TalkfestBundle\Entity\User
+    user_class: %talkfest.model.user.class%
+    group:
+        group_class: %talkfest.model.group.class%
+        group_manager: talkfest.service.group
     encoder:
-        algorithm:          sha512
-        encode_as_base64:   false
-        iterations:         10
+        algorithm:        sha512
+        encode_as_base64: false
+        iterations:       10
+    registration:
+        form:
+            handler: talkfest.form.handler.registration
+
