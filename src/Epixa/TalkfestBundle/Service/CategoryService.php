@@ -6,9 +6,11 @@
 namespace Epixa\TalkfestBundle\Service;
 
 use Doctrine\ORM\NoResultException,
+    Symfony\Component\Security\Acl\Domain\ObjectIdentity,
+    Symfony\Component\Security\Acl\Permission\MaskBuilder,
+    Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity,
     Epixa\TalkfestBundle\Entity\Category,
-    Epixa\TalkfestBundle\Model\CategoryDeletionOptions,
-    Symfony\Bridge\Doctrine\Form\ChoiceList\EntityChoiceList;
+    Epixa\TalkfestBundle\Model\CategoryDeletionOptions;
 
 /**
  * Service for managing categories
@@ -62,6 +64,8 @@ class CategoryService extends AbstractDoctrineService
 
         $em->persist($category);
         $em->flush();
+
+        $this->initCategoryAccess($category);
     }
 
     /**
@@ -122,23 +126,17 @@ class CategoryService extends AbstractDoctrineService
         }
     }
 
-    /**
-     * Gets a choice list of categories
-     *
-     * If a category is provided, it is not included in the returned by the choice list.
-     *
-     * @param \Epixa\TalkfestBundle\Entity\Category|null $excludedCategory
-     * @return \Symfony\Bridge\Doctrine\Form\ChoiceList\EntityChoiceList
-     */
-    public function getCategoryChoiceList(Category $excludedCategory = null)
+    public function initCategoryAccess(Category $category)
     {
-        /* @var \Epixa\TalkfestBundle\Repository\CategoryRepository $repo */
-        $em = $this->getEntityManager();
-        $repo = $em->getRepository('Epixa\TalkfestBundle\Entity\Category');
-        $qb = $repo->getSelectQueryBuilder();
-        $repo->excludeCategory($qb, $excludedCategory);
+        $aclProvider = $this->container->get('security.acl.provider');
 
+        foreach ($category->getGroups() as $group) {
+            $securityIdentity = new RoleSecurityIdentity($group->getRole());
+            $objectIdentity = ObjectIdentity::fromDomainObject($category);
+            $acl = $aclProvider->createAcl($objectIdentity);
 
-        return new EntityChoiceList($em, 'Epixa\TalkfestBundle\Entity\Category', null, $qb);
+            $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_VIEW);
+            $aclProvider->updateAcl($acl);
+        }
     }
 }

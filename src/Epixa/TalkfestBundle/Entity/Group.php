@@ -6,7 +6,8 @@
 namespace Epixa\TalkfestBundle\Entity;
 
 use FOS\UserBundle\Entity\Group as BaseGroup,
-    Doctrine\ORM\Mapping as ORM;
+    Doctrine\ORM\Mapping as ORM,
+    Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
  * A representation of a user group
@@ -21,7 +22,7 @@ use FOS\UserBundle\Entity\Group as BaseGroup,
  * @ORM\Table(name="talkfest_user_group")
  * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */
-class Group extends BaseGroup
+class Group extends BaseGroup implements RoleInterface
 {
     /**
      * @ORM\Id
@@ -31,29 +32,27 @@ class Group extends BaseGroup
     protected $id;
 
     /**
-     * @ORM\Column(type="boolean", name="is_default")
-     * @var bool
+     * @ORM\Column(type="string", name="default_role")
      */
-    protected $isDefault = false;
+    protected $role;
 
     /**
-     * Sets whether this is the default group or not
-     * 
-     * @param bool $flag
-     * @return Group
+     * Converts the group to a string
+     *
+     * @return string
      */
-    public function setIsDefault($flag)
+    public function __toString()
     {
-        $this->isDefault = (bool)$flag;
-        return $this;
+        return $this->getName();
     }
 
     /**
-     * Is this group the default group?
-     * @return bool
+     * Gets the default role for this group
+     * 
+     * @return string
      */
-    public function isDefault()
+    public function getRole()
     {
-        return $this->isDefault;
+        return $this->role;
     }
 }

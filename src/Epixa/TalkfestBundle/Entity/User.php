@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM,
  * @ORM\Table(name="talkfest_user")
  * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */
-class User extends BaseUser implements \FOS\UserBundle\Model\UserInterface
+class User extends BaseUser
 {
     /**
      * @ORM\Id

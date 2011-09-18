@@ -6,6 +6,7 @@
 namespace Epixa\TalkfestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
+    Doctrine\Common\Collections\ArrayCollection,
     Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -46,15 +47,25 @@ class Category
      */
     protected $dateCreated;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Epixa\TalkfestBundle\Entity\Group")
+     * @ORM\JoinTable(name="talkfest_category_user_group",
+     *      joinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
+
 
     /**
      * Initializes a new Category
      *
-     * The creation date is set to now and the topics collection is initialized.
+     * The creation date is set to now and the groups collection is initialized.
      */
     public function __construct()
     {
         $this->setDateCreated('now');
+        $this->groups = new ArrayCollection();
     }
 
     /**
@@ -121,6 +132,16 @@ class Category
 
         $this->dateCreated = $date;
         return $this;
+    }
+
+    /**
+     * Gets all the groups that can access this category
+     * 
+     * @return \Epixa\TalkfestBundle\Entity\Group[]
+     */
+    public function getGroups()
+    {
+        return $this->groups;
     }
 
     /**

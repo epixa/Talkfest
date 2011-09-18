@@ -41,6 +41,10 @@ class CategoryController extends Controller
     {
         $category = $this->getCategoryService()->get($id);
 
+        if (!$this->get('security.context')->isGranted('VIEW', $category)) {
+            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+
         return array(
             'category' => $category,
             'posts' => $this->getPostService()->getByCategory($category, $page),
@@ -69,7 +73,7 @@ class CategoryController extends Controller
                 $this->getCategoryService()->add($category);
 
                 $this->get('session')->setFlash('notice', 'Category created');
-                return $this->redirect($this->generateUrl('post_index_page'));
+                return $this->redirect($this->generateUrl('post_index'));
             }
         }
         
@@ -136,7 +140,7 @@ class CategoryController extends Controller
                 $service->delete($deletionOptions);
 
                 $this->get('session')->setFlash('notice', 'Category deleted');
-                return $this->redirect($this->generateUrl('post_index_page'));
+                return $this->redirect($this->generateUrl('post_index'));
             }
         }
 

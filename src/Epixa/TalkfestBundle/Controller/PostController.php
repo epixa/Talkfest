@@ -59,9 +59,11 @@ class PostController extends Controller
         /* @var \Symfony\Component\HttpFoundation\Response $addCommentResponse */
         $addCommentResponse = $this->forward('EpixaTalkfestBundle:Comment:add', array('post' => $post));
         if ($addCommentResponse->isRedirection()) {
+            var_dump($addCommentResponse);
+            die('here');
             return $addCommentResponse;
         }
-        
+
         return array(
             'form' => $addCommentResponse->getContent(),
             'post' => $post,

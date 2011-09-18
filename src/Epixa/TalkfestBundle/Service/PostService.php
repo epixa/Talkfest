@@ -91,19 +91,7 @@ class PostService extends AbstractDoctrineService
         $em->persist($post);
         $em->flush();
 
-        // creating the ACL
-        $aclProvider = $this->container->get('security.acl.provider');
-        $objectIdentity = ObjectIdentity::fromDomainObject($post);
-        $acl = $aclProvider->createAcl($objectIdentity);
-
-        // retrieving the security identity of the currently logged-in user
-        $securityContext = $this->container->get('security.context');
-        $user = $securityContext->getToken()->getUser();
-        $securityIdentity = UserSecurityIdentity::fromAccount($user);
-
-        // grant owner access
-        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_EDIT);
-        $aclProvider->updateAcl($acl);
+        $this->initPostAccess($post);
 
         return $post;
     }
@@ -143,5 +131,22 @@ class PostService extends AbstractDoctrineService
         $em = $this->getEntityManager();
         $em->remove($post);
         $em->flush();
+    }
+
+    public function initPostAccess(Post $post)
+    {
+        // creating the ACL
+        $aclProvider = $this->container->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($post);
+        $acl = $aclProvider->createAcl($objectIdentity);
+
+        // retrieving the security identity of the currently logged-in user
+        $securityContext = $this->container->get('security.context');
+        $user = $securityContext->getToken()->getUser();
+        $securityIdentity = UserSecurityIdentity::fromAccount($user);
+
+        // grant owner access
+        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_EDIT);
+        $aclProvider->updateAcl($acl);
     }
 }

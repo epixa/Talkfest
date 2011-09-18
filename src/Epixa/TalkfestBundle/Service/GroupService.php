@@ -55,19 +55,4 @@ class GroupService extends GroupManager implements ContainerAwareInterface
     {
         $this->container = $container;
     }
-
-    /**
-     * Gets the default user group
-     *
-     * @throws \RuntimeException If no default group is configured
-     * @return \Epixa\TalkfestBundle\Entity\Group
-     */
-    public function getDefaultGroup()
-    {
-        $group = $this->repository->findOneBy(array('isDefault' => true));
-        if ($group === null) {
-            throw new \RuntimeException('No default group configured');
-        }
-        return $group;
-    }
 }

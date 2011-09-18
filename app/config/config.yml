@@ -58,8 +58,6 @@ jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
 
-    
-
 # FriendsOfSymfony UserBundle Configuration
 fos_user:
     db_driver: orm
@@ -72,7 +70,3 @@ fos_user:
         algorithm:        sha512
         encode_as_base64: false
         iterations:       10
-    registration:
-        form:
-            handler: talkfest.form.handler.registration
-
