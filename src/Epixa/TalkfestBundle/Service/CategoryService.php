@@ -31,8 +31,16 @@ class CategoryService extends AbstractDoctrineService
      */
     public function getAll()
     {
+        /* @var \Epixa\TalkfestBundle\Entity\User $user */
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        /* @var \Epixa\TalkfestBundle\Repository\CategoryRepository $repo */
         $repo = $this->getEntityManager()->getRepository('Epixa\TalkfestBundle\Entity\Category');
-        return $repo->findAll();
+        $qb = $repo->getSelectQueryBuilder();
+
+        $repo->restrictToAccessible($qb, $user);
+
+        return $qb->getQuery()->getResult();
     }
 
     /**

@@ -51,12 +51,16 @@ class PostService extends AbstractDoctrineService
      */
     public function getAll($page = 1)
     {
+        /* @var \Epixa\TalkfestBundle\Entity\User $user */
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
         /* @var \Epixa\TalkfestBundle\Repository\PostRepository $repo */
         $repo = $this->getEntityManager()->getRepository('Epixa\TalkfestBundle\Entity\Post');
         $qb = $repo->getSelectQueryBuilder();
 
         $repo->restrictToPage($qb, $page);
         $repo->includeCategory($qb);
+        $repo->restrictToAccessible($qb, $user);
 
         return $qb->getQuery()->getResult();
     }
