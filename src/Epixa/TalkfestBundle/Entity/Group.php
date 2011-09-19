@@ -48,7 +48,7 @@ class Group extends BaseGroup implements RoleInterface
 
     /**
      * Gets the default role for this group
-     * 
+     *
      * @return string
      */
     public function getRole()

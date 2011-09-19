@@ -41,7 +41,7 @@ class CategoryController extends Controller
     {
         $category = $this->getCategoryService()->get($id);
 
-        if (!$this->get('security.context')->isGranted('VIEW', $category)) {
+        if (!$this->getCategoryService()->canAccess($category)) {
             throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
 

@@ -10,6 +10,7 @@ use Doctrine\ORM\NoResultException,
     Symfony\Component\Security\Acl\Permission\MaskBuilder,
     Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity,
     Epixa\TalkfestBundle\Entity\Category,
+    Epixa\TalkfestBundle\Entity\User,
     Epixa\TalkfestBundle\Model\CategoryDeletionOptions;
 
 /**
@@ -64,8 +65,6 @@ class CategoryService extends AbstractDoctrineService
 
         $em->persist($category);
         $em->flush();
-
-        $this->initCategoryAccess($category);
     }
 
     /**
@@ -126,17 +125,39 @@ class CategoryService extends AbstractDoctrineService
         }
     }
 
-    public function initCategoryAccess(Category $category)
+    /**
+     * Determines if the current user can access the given category
+     *
+     * @param \Epixa\TalkfestBundle\Entity\Category $category
+     * @return bool
+     */
+    public function canAccess(Category $category)
     {
-        $aclProvider = $this->container->get('security.acl.provider');
+        /* @var \Epixa\TalkfestBundle\Entity\User $user */
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $categoryGroups = $category->getGroups();
+        $userGroupIds = array();
 
-        foreach ($category->getGroups() as $group) {
-            $securityIdentity = new RoleSecurityIdentity($group->getRole());
-            $objectIdentity = ObjectIdentity::fromDomainObject($category);
-            $acl = $aclProvider->createAcl($objectIdentity);
-
-            $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_VIEW);
-            $aclProvider->updateAcl($acl);
+        // if this category does not have any groups specified
+        if (count($categoryGroups) === 0) {
+            return true;
         }
+
+        // if the user is not logged in
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        foreach ($user->getGroups() as $group) {
+            array_push($userGroupIds, $group->getId());
+        }
+
+        foreach ($categoryGroups as $group) {
+            if (in_array($group->getId(), $userGroupIds)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

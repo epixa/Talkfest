@@ -56,12 +56,18 @@ class PostController extends Controller
     {
         $post = $this->getPostService()->get($id);
 
-        /* @var \Symfony\Component\HttpFoundation\Response $addCommentResponse */
-        $addCommentResponse = $this->forward('EpixaTalkfestBundle:Comment:add', array('post' => $post));
-        if ($addCommentResponse->isRedirection()) {
-            var_dump($addCommentResponse);
-            die('here');
-            return $addCommentResponse;
+        // make sure the current user can view a post in this category
+        if (!$this->getCategoryService()->canAccess($post->getCategory())) {
+            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+
+        $addCommentResponse = '';
+        if ($this->getPostService()->canCommentOn($post)) {
+            /* @var \Symfony\Component\HttpFoundation\Response $addCommentResponse */
+            $addCommentResponse = $this->forward('EpixaTalkfestBundle:Comment:add', array('post' => $post));
+            if ($addCommentResponse->isRedirection()) {
+                return $addCommentResponse;
+            }
         }
 
         return array(
@@ -97,6 +103,9 @@ class PostController extends Controller
             $form->bindRequest($request);
 
             if ($form->isValid()) {
+                if (!$this->getCategoryService()->canAccess($post->getCategory())) {
+                    throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+                }
                 $this->getPostService()->add($post);
 
                 $this->get('session')->setFlash('notice', 'Post created');
@@ -125,7 +134,7 @@ class PostController extends Controller
         $service = $this->getPostService();
         $post = $service->get($id);
 
-        if (!$this->get('security.context')->isGranted('EDIT', $post)) {
+        if (!$this->getPostService()->canEdit($post)) {
             throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
 
@@ -135,6 +144,9 @@ class PostController extends Controller
             $form->bindRequest($request);
 
             if ($form->isValid()) {
+                if (!$this->getCategoryService()->canAccess($post->getCategory())) {
+                    throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+                }
                 $service->update($post);
 
                 $this->get('session')->setFlash('notice', 'Post updated');

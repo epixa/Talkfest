@@ -11,6 +11,7 @@ use Doctrine\ORM\NoResultException,
     Symfony\Component\Security\Acl\Domain\UserSecurityIdentity,
     Epixa\TalkfestBundle\Entity\Category,
     Epixa\TalkfestBundle\Entity\Post,
+    Epixa\TalkfestBundle\Entity\User,
     Epixa\TalkfestBundle\Entity\Comment;
 
 /**
@@ -91,8 +92,6 @@ class PostService extends AbstractDoctrineService
         $em->persist($post);
         $em->flush();
 
-        $this->initPostAccess($post);
-
         return $post;
     }
 
@@ -124,29 +123,67 @@ class PostService extends AbstractDoctrineService
      */
     public function delete(Post $post)
     {
-        $aclProvider = $this->container->get('security.acl.provider');
-        $objectIdentity = ObjectIdentity::fromDomainObject($post);
-        $aclProvider->deleteAcl($objectIdentity);
-
         $em = $this->getEntityManager();
         $em->remove($post);
         $em->flush();
     }
 
-    public function initPostAccess(Post $post)
+    /**
+     * Determines if the current user can edit the given post
+     *
+     * @param \Epixa\TalkfestBundle\Entity\Post $post
+     * @return bool
+     */
+    public function canEdit(Post $post)
     {
-        // creating the ACL
-        $aclProvider = $this->container->get('security.acl.provider');
-        $objectIdentity = ObjectIdentity::fromDomainObject($post);
-        $acl = $aclProvider->createAcl($objectIdentity);
+        /* @var \Epixa\TalkfestBundle\Entity\User $user */
+        $user = $this->container->get('security.context')->getToken()->getUser();
 
-        // retrieving the security identity of the currently logged-in user
-        $securityContext = $this->container->get('security.context');
-        $user = $securityContext->getToken()->getUser();
-        $securityIdentity = UserSecurityIdentity::fromAccount($user);
+        // if the user is not logged in
+        if (!$user instanceof User) {
+            return false;
+        }
 
-        // grant owner access
-        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_EDIT);
-        $aclProvider->updateAcl($acl);
+        // admins should be able to edit any post
+        foreach ($user->getRoles() as $role) {
+            if ((string)$role == 'ROLE_ADMIN') {
+                return true;
+            }
+        }
+
+        // other than admins, only the original author can edit a post
+        if ($post->getAuthor()->getId() === $user->getId()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determines if the current user can add comments to the given post
+     * 
+     * @param \Epixa\TalkfestBundle\Entity\Post $post
+     * @return bool
+     */
+    public function canCommentOn(Post $post)
+    {
+        /* @var \Epixa\TalkfestBundle\Entity\User $user */
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        // if the user is not logged in
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        // admins should be able to edit any post
+        foreach ($user->getRoles() as $role) {
+            if ((string)$role == 'ROLE_ADMIN') {
+                return true;
+            }
+        }
+
+        /* @var \Epixa\TalkfestBundle\Service\CategoryService $categoryService */
+        $categoryService = $this->container->get('talkfest.service.category');
+        return $categoryService->canAccess($post->getCategory());
     }
 }
