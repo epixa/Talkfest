@@ -43,34 +43,4 @@ class CategoryRepository extends EntityRepository
         $qb->andWhere('category.id <> :category_id');
         $qb->setParameter('category_id', $category->getId());
     }
-
-    /**
-     * Restricts the given query to only categories that are accessible by the given user
-     * 
-     * @param \Doctrine\ORM\QueryBuilder $qb
-     * @param \Epixa\TalkfestBundle\Entity\User $user
-     * @return void
-     */
-    public function restrictToAccessible(QueryBuilder $qb, User $user)
-    {
-        $qb->leftJoin('category.groups', 'groups');
-
-        $whereStr = 'groups.id is null';
-
-        $groupParameters = array();
-        foreach ($user->getGroups() as $group) {
-            $groupId = (int)$group->getId();
-            $groupParameters[$groupId] = ':group_' . $groupId;
-        }
-
-        if ($groupParameters) {
-            $whereStr .= sprintf(' or groups.id in (%s)', implode(', ', $groupParameters));
-            foreach ($groupParameters as $groupId => $value) {
-                $qb->setParameter('group_' . $groupId, $groupId);
-            }
-        }
-        
-        $qb->andWhere($whereStr);
-        $qb->groupBy('category.id');
-    }
 }

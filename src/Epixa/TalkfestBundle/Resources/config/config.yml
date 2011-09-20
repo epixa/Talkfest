@@ -1,13 +1,11 @@
 parameters:
     talkfest.model.user.class: Epixa\TalkfestBundle\Entity\User
-    talkfest.model.group.class: Epixa\TalkfestBundle\Entity\Group
     talkfest.model.category.class: Epixa\TalkfestBundle\Entity\Category
     talkfest.model.post.class: Epixa\TalkfestBundle\Entity\Post
     talkfest.model.comment.class: Epixa\TalkfestBundle\Entity\Comment
     talkfest.service.category.class: Epixa\TalkfestBundle\Service\CategoryService
     talkfest.service.post.class: Epixa\TalkfestBundle\Service\PostService
     talkfest.service.comment.class: Epixa\TalkfestBundle\Service\CommentService
-    talkfest.service.group.class: Epixa\TalkfestBundle\Service\GroupService
 
 services:
     talkfest.service.category:
@@ -19,12 +17,3 @@ services:
     talkfest.service.comment:
         class: %talkfest.service.comment.class%
         arguments: [@service_container]
-    talkfest.service.group:
-        class: Epixa\TalkfestBundle\Service\GroupService
-        arguments: [@doctrine.orm.default_entity_manager, %talkfest.model.group.class%, @service_container]
-    talkfest.form.handler.registration:
-        scope: request
-        class: Epixa\TalkfestBundle\Form\Handler\RegistrationFormHandler
-        arguments: [ @fos_user.registration.form, @request, @fos_user.user_manager, @fos_user.mailer ]
-        calls:
-            - [ setContainer, [@service_container] ]

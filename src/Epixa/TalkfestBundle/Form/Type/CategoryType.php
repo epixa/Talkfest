@@ -30,9 +30,6 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('name');
-        $builder->add('groups', null, array(
-            'label' => 'Groups that can access this category'
-        ));
     }
 
     /**

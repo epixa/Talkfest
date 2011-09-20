@@ -41,10 +41,6 @@ class CategoryController extends Controller
     {
         $category = $this->getCategoryService()->get($id);
 
-        if (!$this->getCategoryService()->canAccess($category)) {
-            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
-        }
-
         return array(
             'category' => $category,
             'posts' => $this->getPostService()->getByCategory($category, $page),

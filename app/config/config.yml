@@ -54,6 +54,7 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
 
+# JMS Security configuration
 jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
@@ -63,9 +64,6 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: %talkfest.model.user.class%
-    group:
-        group_class: %talkfest.model.group.class%
-        group_manager: talkfest.service.group
     encoder:
         algorithm:        sha512
         encode_as_base64: false

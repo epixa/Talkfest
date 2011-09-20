@@ -20,6 +20,4 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
     role_hierarchy:
-        ROLE_MEMBER:      ROLE_USER
-        ROLE_ADMIN:       ROLE_MEMBER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_SUPER_ADMIN: ROLE_USER

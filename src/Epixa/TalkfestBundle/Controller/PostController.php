@@ -56,18 +56,10 @@ class PostController extends Controller
     {
         $post = $this->getPostService()->get($id);
 
-        // make sure the current user can view a post in this category
-        if (!$this->getCategoryService()->canAccess($post->getCategory())) {
-            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
-        }
-
-        $addCommentResponse = '';
-        if ($this->getPostService()->canCommentOn($post)) {
-            /* @var \Symfony\Component\HttpFoundation\Response $addCommentResponse */
-            $addCommentResponse = $this->forward('EpixaTalkfestBundle:Comment:add', array('post' => $post));
-            if ($addCommentResponse->isRedirection()) {
-                return $addCommentResponse;
-            }
+        /* @var \Symfony\Component\HttpFoundation\Response $addCommentResponse */
+        $addCommentResponse = $this->forward('EpixaTalkfestBundle:Comment:add', array('post' => $post));
+        if ($addCommentResponse->isRedirection()) {
+            return $addCommentResponse;
         }
 
         return array(
@@ -103,9 +95,6 @@ class PostController extends Controller
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                if (!$this->getCategoryService()->canAccess($post->getCategory())) {
-                    throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
-                }
                 $this->getPostService()->add($post);
 
                 $this->get('session')->setFlash('notice', 'Post created');
@@ -144,9 +133,6 @@ class PostController extends Controller
             $form->bindRequest($request);
 
             if ($form->isValid()) {
-                if (!$this->getCategoryService()->canAccess($post->getCategory())) {
-                    throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
-                }
                 $service->update($post);
 
                 $this->get('session')->setFlash('notice', 'Post updated');

@@ -28,8 +28,9 @@ class CommentController extends Controller
 {
     /**
      * @Template()
+     * @Secure(roles="ROLE_USER")
      *
-     * @param Post $post
+     * @param \Epixa\TalkfestBundle\Entity\Post $post
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return array
      */
@@ -61,6 +62,7 @@ class CommentController extends Controller
     /**
      * @Route("/comment/edit/{id}", requirements={"id"="\d+"}, name="edit_comment")
      * @Template()
+     * @Secure(roles="ROLE_USER")
      *
      * @param integer $id
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -94,6 +96,7 @@ class CommentController extends Controller
     /**
      * @Route("/comment/delete/{id}", requirements={"id"="\d+"}, name="delete_comment")
      * @Template()
+     * @Secure(roles="ROLE_USER")
      *
      * @param integer $id
      * @param \Symfony\Component\HttpFoundation\Request $request

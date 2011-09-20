@@ -60,7 +60,6 @@ class PostService extends AbstractDoctrineService
 
         $repo->restrictToPage($qb, $page);
         $repo->includeCategory($qb);
-        $repo->restrictToAccessible($qb, $user);
 
         return $qb->getQuery()->getResult();
     }
@@ -96,6 +95,20 @@ class PostService extends AbstractDoctrineService
         $em->persist($post);
         $em->flush();
 
+        // creating the ACL
+        $aclProvider = $this->container->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($post);
+        $acl = $aclProvider->createAcl($objectIdentity);
+
+        // retrieving the security identity of the currently logged-in user
+        $securityContext = $this->container->get('security.context');
+        $user = $securityContext->getToken()->getUser();
+        $securityIdentity = UserSecurityIdentity::fromAccount($user);
+
+        // grant edit access
+        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_EDIT);
+        $aclProvider->updateAcl($acl);
+
         return $post;
     }
 
@@ -127,6 +140,10 @@ class PostService extends AbstractDoctrineService
      */
     public function delete(Post $post)
     {
+        $aclProvider = $this->container->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($post);
+        $aclProvider->deleteAcl($objectIdentity);
+        
         $em = $this->getEntityManager();
         $em->remove($post);
         $em->flush();
@@ -161,33 +178,5 @@ class PostService extends AbstractDoctrineService
         }
 
         return false;
-    }
-
-    /**
-     * Determines if the current user can add comments to the given post
-     * 
-     * @param \Epixa\TalkfestBundle\Entity\Post $post
-     * @return bool
-     */
-    public function canCommentOn(Post $post)
-    {
-        /* @var \Epixa\TalkfestBundle\Entity\User $user */
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        // if the user is not logged in
-        if (!$user instanceof User) {
-            return false;
-        }
-
-        // admins should be able to edit any post
-        foreach ($user->getRoles() as $role) {
-            if ((string)$role == 'ROLE_ADMIN') {
-                return true;
-            }
-        }
-
-        /* @var \Epixa\TalkfestBundle\Service\CategoryService $categoryService */
-        $categoryService = $this->container->get('talkfest.service.category');
-        return $categoryService->canAccess($post->getCategory());
     }
 }

@@ -38,8 +38,6 @@ class CategoryService extends AbstractDoctrineService
         $repo = $this->getEntityManager()->getRepository('Epixa\TalkfestBundle\Entity\Category');
         $qb = $repo->getSelectQueryBuilder();
 
-        $repo->restrictToAccessible($qb, $user);
-
         return $qb->getQuery()->getResult();
     }
 
@@ -131,41 +129,5 @@ class CategoryService extends AbstractDoctrineService
             $db->rollback();
             throw new \RuntimeException('Transaction failed', null, $e);
         }
-    }
-
-    /**
-     * Determines if the current user can access the given category
-     *
-     * @param \Epixa\TalkfestBundle\Entity\Category $category
-     * @return bool
-     */
-    public function canAccess(Category $category)
-    {
-        /* @var \Epixa\TalkfestBundle\Entity\User $user */
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        $categoryGroups = $category->getGroups();
-        $userGroupIds = array();
-
-        // if this category does not have any groups specified
-        if (count($categoryGroups) === 0) {
-            return true;
-        }
-
-        // if the user is not logged in
-        if (!$user instanceof User) {
-            return false;
-        }
-
-        foreach ($user->getGroups() as $group) {
-            array_push($userGroupIds, $group->getId());
-        }
-
-        foreach ($categoryGroups as $group) {
-            if (in_array($group->getId(), $userGroupIds)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

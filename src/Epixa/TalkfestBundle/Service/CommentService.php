@@ -6,6 +6,9 @@
 namespace Epixa\TalkfestBundle\Service;
 
 use Doctrine\ORM\NoResultException,
+    Symfony\Component\Security\Acl\Domain\ObjectIdentity,
+    Symfony\Component\Security\Acl\Permission\MaskBuilder,
+    Symfony\Component\Security\Acl\Domain\UserSecurityIdentity,
     Epixa\TalkfestBundle\Entity\Comment,
     Epixa\TalkfestBundle\Entity\Post,
     InvalidArgumentException;
@@ -65,7 +68,7 @@ class CommentService extends AbstractDoctrineService
      * Adds the given comment to the database
      *
      * @param \Epixa\TalkfestBundle\Entity\Comment $comment
-     * @return void
+     * @return \Epixa\TalkfestBundle\Entity\Comment $comment
      */
     public function add(Comment $comment)
     {
@@ -73,6 +76,22 @@ class CommentService extends AbstractDoctrineService
 
         $em->persist($comment);
         $em->flush();
+
+        // creating the ACL
+        $aclProvider = $this->container->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($comment);
+        $acl = $aclProvider->createAcl($objectIdentity);
+
+        // retrieving the security identity of the currently logged-in user
+        $securityContext = $this->container->get('security.context');
+        $user = $securityContext->getToken()->getUser();
+        $securityIdentity = UserSecurityIdentity::fromAccount($user);
+
+        // grant edit access
+        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_EDIT);
+        $aclProvider->updateAcl($acl);
+
+        return $comment;
     }
 
     /**
@@ -101,6 +120,10 @@ class CommentService extends AbstractDoctrineService
      */
     public function delete(Comment $comment)
     {
+        $aclProvider = $this->container->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($comment);
+        $aclProvider->deleteAcl($objectIdentity);
+
         $em = $this->getEntityManager();
         $em->remove($comment);
         $em->flush();

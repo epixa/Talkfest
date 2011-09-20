@@ -47,15 +47,6 @@ class Category
      */
     protected $dateCreated;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Epixa\TalkfestBundle\Entity\Group")
-     * @ORM\JoinTable(name="talkfest_category_user_group",
-     *      joinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
-     */
-    protected $groups;
-
 
     /**
      * Initializes a new Category
@@ -132,16 +123,6 @@ class Category
 
         $this->dateCreated = $date;
         return $this;
-    }
-
-    /**
-     * Gets all the groups that can access this category
-     * 
-     * @return \Epixa\TalkfestBundle\Entity\Group[]
-     */
-    public function getGroups()
-    {
-        return $this->groups;
     }
 
     /**
