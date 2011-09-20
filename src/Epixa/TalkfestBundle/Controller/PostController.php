@@ -56,14 +56,19 @@ class PostController extends Controller
     {
         $post = $this->getPostService()->get($id);
 
-        /* @var \Symfony\Component\HttpFoundation\Response $addCommentResponse */
-        $addCommentResponse = $this->forward('EpixaTalkfestBundle:Comment:add', array('post' => $post));
-        if ($addCommentResponse->isRedirection()) {
-            return $addCommentResponse;
+        $addCommentContent = '';
+        if ($this->get('security.context')->isGranted('CREATE', '@EpixaTalkfestBundle:Comment:add')) {
+            /* @var \Symfony\Component\HttpFoundation\Response $addCommentResponse */
+            $addCommentResponse = $this->forward('EpixaTalkfestBundle:Comment:add', array('post' => $post));
+            if ($addCommentResponse->isRedirection()) {
+                return $addCommentResponse;
+            } else if ($addCommentResponse->isSuccessful()) {
+                $addCommentContent = $addCommentResponse->getContent();
+            }
         }
 
         return array(
-            'form' => $addCommentResponse->getContent(),
+            'addCommentForm' => $addCommentContent,
             'post' => $post,
             'comments' => $this->getCommentService()->getByPost($post)
         );

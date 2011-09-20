@@ -18,9 +18,7 @@
         {% endif %}
     </section>
 
-    <section>
-        {{ form | raw }}
-    </section>
+    {{ addCommentForm | raw }}
 
     <section class="comments">
         {% for comment in comments %}
