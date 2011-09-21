@@ -1,10 +1,35 @@
 {% extends 'EpixaTalkfestBundle::layout.html.twig' %}
 
-{% block content %}
-    <p>Delete Comment: {{ comment.getId() }}</p>
+{% block title %}Delete Comment - {{ parent() }}{% endblock %}
 
-    <form action="{{ path('delete_comment', {'id' : comment.getId()}) }}" method="post">
-        <input type="submit" value="Delete" />
-        <a href="{{ path('view_post', {'id' : comment.getPost().getId()}) }}#comment-{{ comment.getId() }}">Cancel</a>
-    </form>
+{% block bodyClass %}{{ parent() }} split{% endblock %}
+
+{% block content %}
+    <section class="post">
+        <header>
+            <h2>In response to: <a href="{{ path('view_post', { 'id': comment.getPost().getId() }) }}">{{ comment.getPost().getTitle() }}</a></h2>
+        </header>
+    </section>
+
+    <section id="comment-{{ comment.getId() }}" class="comment">
+        <section class="author">
+            <a href="">{{ comment.getAuthor().getUsername() }}</a>
+            posted on {{ comment.getDateCreated().format('F d, Y \\a\\t g:i a') }}
+        </section>
+
+        <section class="content">
+            {{ comment.getContent() }}
+        </section>
+    </section>
+
+    <section id="edit_comment" class="form">
+        <h2>Are you sure you want to delete this comment?</h2>
+
+        <form action="{{ path('delete_comment', {'id' : comment.getId()}) }}" method="post">
+            <fieldset class="options">
+                <input type="submit" value="Delete" /> or
+                <a href="{{ path('view_post', {'id' : comment.getPost().getId()}) }}#comment-{{ comment.getId() }}">Cancel</a>
+            </fieldset>
+        </form>
+    </section>
 {% endblock %}

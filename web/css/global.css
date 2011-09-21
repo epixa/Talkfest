@@ -215,6 +215,10 @@ ul.pagination li a:hover {
     font-size: 14px;
 }
 
+.post {
+    padding-bottom: 5px;
+}
+
 .post .comment {
     background-color: #fafafa;
     border: 1px solid #f0f0f0;
