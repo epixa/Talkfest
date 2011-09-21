@@ -1,9 +1,30 @@
+{% extends 'EpixaTalkfestBundle::layout.html.twig' %}
+
+{% block title %}Edit Comment - {{ parent() }}{% endblock %}
+
+{% block bodyClass %}{{ parent() }} split{% endblock %}
+
+{% block content %}
+    <section class="post">
+        <header>
+            <h2><a href="{{ path('view_post', { 'id': comment.getPost().getId() }) }}">{{ comment.getPost().getTitle() }}</a></h2>
+            <section class="options">
+                posted in <a href="{{ path('view_category', { 'id': comment.getPost().getCategory().getId() }) }}">{{ comment.getPost().getCategory().getName() }}</a> by <a href="">{{ comment.getPost().getAuthor() }}</a>
+            </section>
+        </header>
+    </section>
+
     <section id="edit_comment" class="form">
-        <h2>Edit Comment</h2>
+        <h2>Edit Comment #{{ comment.getId() }}</h2>
 
         <form action="{{ path('edit_comment', {'id' : comment.getId()}) }}" method="post" {{ form_enctype(form) }}>
             <fieldset>
-                {{ form_widget(form) }}
+                {{ form_errors(form) }}
+
+                {{ form_widget(form.content) }}
+                {{ form_errors(form.content) }}
+
+                {{ form_rest(form) }}
             </fieldset>
 
             <fieldset class="options">
@@ -12,3 +33,4 @@
             </fieldset>
         </form>
     </section>
+{% endblock %}
