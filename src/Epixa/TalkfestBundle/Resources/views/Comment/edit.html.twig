@@ -1,11 +1,14 @@
-{% extends 'EpixaTalkfestBundle::layout.html.twig' %}
+    <section id="edit_comment" class="form">
+        <h2>Edit Comment</h2>
 
-{% block content %}
-    <p>Edit Comment</p>
+        <form action="{{ path('edit_comment', {'id' : comment.getId()}) }}" method="post" {{ form_enctype(form) }}>
+            <fieldset>
+                {{ form_widget(form) }}
+            </fieldset>
 
-    <form action="{{ path('edit_comment', {'id' : comment.getId()}) }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-
-        <input type="submit" value="Update" />
-    </form>
-{% endblock %}
+            <fieldset class="options">
+                <input type="submit" value="Update" /> or
+                <a href="{{ path('view_post', {'id': comment.getPost().getId()}) }}#comment-{{ comment.getId() }}">cancel</a>
+            </fieldset>
+        </form>
+    </section>
