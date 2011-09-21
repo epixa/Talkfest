@@ -34,6 +34,9 @@
                     {% if is_granted('ROLE_ADMIN') or (app.user and comment.getAuthor().getId() == app.user.getId()) %}
                     - <a href="{{ path('edit_comment', {'id': comment.getId()}) }}">edit</a>
                     {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                    - <a href="{{ path('delete_comment', {'id': comment.getId()}) }}">delete</a>
+                    {% endif %}
                 </section>
 
                 <section class="content">
