@@ -1,0 +1,31 @@
+    <section id="signup" class="form">
+        <h2>Create a new account</h2>
+
+        <form action="{{ path('fos_user_registration_register') }}" method="post" class="fos_user_registration_register" {{ form_enctype(form) }}>
+            <fieldset>
+                {{ form_errors(form) }}
+
+                <label for="fos_user_registration_form_username">Username</label>
+                {{ form_widget(form.username) }}
+                {{ form_errors(form.username) }}
+
+                <label for="fos_user_registration_form_email">Email</label>
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.email) }}
+
+                <label for="fos_user_registration_form_plainPassword_first">Password</label>
+                {{ form_widget(form.plainPassword.first) }}
+                {{ form_errors(form.plainPassword.first) }}
+
+                <label for="fos_user_registration_form_plainPassword_second">Confirm Password</label>
+                {{ form_widget(form.plainPassword.second) }}
+                {{ form_errors(form.plainPassword.second) }}
+
+                {{ form_rest(form) }}
+            </fieldset>
+
+            <fieldset class="options">
+                <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+            </fieldset>
+        </form>
+    </section>

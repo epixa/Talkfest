@@ -280,6 +280,8 @@ ul.pagination li a:hover {
 }
 
 .form input[type='text'],
+.form input[type='email'],
+.form input[type='password'],
 .form textarea,
 .form select {
     background-color: #fff;
@@ -321,6 +323,8 @@ ul.pagination li a:hover {
 }
 
 .simple_form input[type='text'],
+.simple_form input[type='email'],
+.simple_form input[type='password'],
 .simple_form textarea,
 .simple_form select {
     background-color: #fff;
