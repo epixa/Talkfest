@@ -11,7 +11,7 @@ Beta - This application is still under development and is not ready for producti
 
 * Custom categories are used to group similar types of discussions (e.g. Funny, Politics, etc.)
 * Posts represent the starting point of a specific discussion (e.g. Some random thought, some link I saw, etc.)
-* Comments are responses to any specific post
+* Comments are responses to any specific post that can be modified by their author or admins
 * Main post stream that lists all posts across all categories
 * Individual category streams for posts
 * User management via the popular FOSUserBundle component
@@ -19,9 +19,7 @@ Beta - This application is still under development and is not ready for producti
 ## Features Intended for Stable Release
 
 * Markdown-based comment formatting
-* Ability for admins to edit any comment and authors to edit their own comments
-* Visual pagination controls
-* Various minor user interface improvements
+* Various user interface improvements
 * Command line tools
 
 ## Installation
