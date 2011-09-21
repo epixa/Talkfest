@@ -21,6 +21,40 @@ use Doctrine\ORM\EntityRepository,
 class CommentRepository extends EntityRepository
 {
     /**
+     * @var int
+     */
+    protected $totalPerPage = 100;
+
+
+    /**
+     * Sets the maximum number of posts to show on any given page
+     *
+     * @throws \InvalidArgumentException If $total is less than 1
+     * @param $total
+     * @return PostRepository *Fluent interface*
+     */
+    public function setTotalPerPage($total)
+    {
+        $total = (int)$total;
+        if ($total < 1) {
+            throw new \InvalidArgumentException('Total posts per page must be at least 1');
+        }
+
+        $this->totalPerPage = (int)$total;
+        return $this;
+    }
+
+    /**
+     * Gets the maximum number of posts to show on any given page
+     *
+     * @return int
+     */
+    public function getTotalPerPage()
+    {
+        return $this->totalPerPage;
+    }
+
+    /**
      * Gets the basic query builder for retrieving comment entities
      *
      * @return \Doctrine\ORM\QueryBuilder
@@ -48,11 +82,11 @@ class CommentRepository extends EntityRepository
      *
      * @param \Doctrine\ORM\QueryBuilder $qb
      * @param integer $page
-     * @param integer $max
      * @return void
      */
-    public function restrictToPage(QueryBuilder $qb, $page, $max = 50)
+    public function restrictToPage(QueryBuilder $qb, $page)
     {
+        $max = $this->getTotalPerPage();
         $qb->setMaxResults($max);
         $qb->setFirstResult($max * ($page - 1));
     }
