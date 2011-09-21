@@ -41,6 +41,7 @@ class Comment
      * Post of this comment
      *
      * @ORM\ManyToOne(targetEntity="Epixa\TalkfestBundle\Entity\Post")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
      * @var Post
      */
     protected $post;
