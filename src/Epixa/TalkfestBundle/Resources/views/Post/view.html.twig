@@ -7,7 +7,14 @@
         <header>
             <h2><a href="{{ path('view_post', { 'id': post.getId() }) }}">{{ post.getTitle() }}</a></h2>
             <section class="options">
-                posted in <a href="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a> by <a href="">{{ post.getAuthor() }}</a>
+                posted in <a href="{{ path('view_category', { 'id': post.getCategory().getId() }) }}">{{ post.getCategory().getName() }}</a>
+                by <a href="">{{ post.getAuthor() }}</a>
+                {% if is_granted('ROLE_ADMIN') or (app.user and post.getAuthor().getId() == app.user.getId()) %}
+                - <a href="{{ path('edit_post', {'id': post.getId()}) }}">edit</a>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                - <a href="{{ path('delete_post', {'id': post.getId()}) }}">delete</a>
+                {% endif %}
             </section>
         </header>
 

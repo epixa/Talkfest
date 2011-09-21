@@ -100,7 +100,7 @@ class CommentController extends Controller
     /**
      * @Route("/comment/delete/{id}", requirements={"id"="\d+"}, name="delete_comment")
      * @Template()
-     * @Secure(roles="ROLE_USER")
+     * @Secure(roles="ROLE_ADMIN")
      *
      * @param integer $id
      * @param \Symfony\Component\HttpFoundation\Request $request
