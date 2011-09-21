@@ -11,6 +11,7 @@ use Doctrine\ORM\NoResultException,
     Symfony\Component\Security\Acl\Domain\UserSecurityIdentity,
     Epixa\TalkfestBundle\Entity\Comment,
     Epixa\TalkfestBundle\Entity\Post,
+    Epixa\TalkfestBundle\Entity\User,
     InvalidArgumentException;
 
 /**
@@ -127,5 +128,36 @@ class CommentService extends AbstractDoctrineService
         $em = $this->getEntityManager();
         $em->remove($comment);
         $em->flush();
+    }
+
+    /**
+     * Determines if the current user can edit the given comment
+     *
+     * @param \Epixa\TalkfestBundle\Entity\Comment $comment
+     * @return bool
+     */
+    public function canEdit(Comment $comment)
+    {
+        /* @var \Epixa\TalkfestBundle\Entity\User $user */
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        // if the user is not logged in
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        // admins should be able to edit any comment
+        foreach ($user->getRoles() as $role) {
+            if ((string)$role == 'ROLE_ADMIN') {
+                return true;
+            }
+        }
+
+        // other than admins, only the original author can edit a comment
+        if ($comment->getAuthor()->getId() === $user->getId()) {
+            return true;
+        }
+
+        return false;
     }
 }

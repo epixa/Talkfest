@@ -73,6 +73,10 @@ class CommentController extends Controller
         $service = $this->getCommentService();
         $comment = $service->get($id);
 
+        if (!$this->getCommentService()->canEdit($comment)) {
+            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+        }
+
         $form = $this->createForm(new CommentType(), $comment);
 
         if ($request->getMethod() == 'POST') {

@@ -22,7 +22,11 @@
         {% for comment in comments %}
             <section id="comment-{{ comment.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }} comment">
                 <section class="author">
-                    <a href="">{{ comment.getAuthor().getUsername() }}</a> posted on {{ comment.getDateCreated().format('F d, Y \\a\\t g:i a') }}
+                    <a href="">{{ comment.getAuthor().getUsername() }}</a>
+                    posted on {{ comment.getDateCreated().format('F d, Y \\a\\t g:i a') }}
+                    {% if is_granted('ROLE_ADMIN') or (app.user and comment.getAuthor().getId() == app.user.getId()) %}
+                    - <a href="{{ path('edit_comment', {'id': comment.getId()}) }}">edit</a>
+                    {% endif %}
                 </section>
 
                 <section class="content">
