@@ -34,7 +34,8 @@ Most of the installation is done through symfony's command line tools.  After cl
 4. php app/console init:acl
 5. php app/console doctrine:schema:update --force
 6. php app/console assets:install web
+7. Create a new super admin: php app/console fos:user:create myadminusername --super-admin
+8. Log into this new super admin account at /login
+9. Create your first category at /category/add
 
-New users can be created via the signup page.  You'll want to create a single super admin user as well, which you can do via the following FOSUserBundle command:
-
-php app/console fos:user:create myadminusername --super-admin
+New users can be created via the signup page (/signup).
