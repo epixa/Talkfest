@@ -322,6 +322,27 @@ ul.pagination li a:hover {
     padding:  0 20px;
 }
 
+.side_by_side {
+    overflow: hidden;
+    padding-bottom: 15px;
+    width: 100%;
+}
+
+.side_by_side input {
+    float: left;
+}
+
+.side_by_side input[type='checkbox'] {
+    float: left;
+    margin: 7px 0 0;
+}
+
+.side_by_side label {
+    float: left;
+    line-height: 1;
+    padding: 5px 5px;
+}
+
 .simple_form input[type='text'],
 .simple_form input[type='email'],
 .simple_form input[type='password'],
