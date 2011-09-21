@@ -21,6 +21,16 @@
             </li>
         {% endfor %}
         </ul>
+
+        <ul class="pagination">
+        {% if currentPage > 1 %}
+            <li><a href="{{ path('view_category_page', {'id' : category.getId(), 'page':currentPage - 1}) }}">Prev</a></li>
+        {% endif %}
+
+        {% if totalPages > currentPage %}
+            <li><a href="{{ path('view_category_page', {'id' : category.getId(), 'page':currentPage + 1}) }}">Next</a></li>
+        {% endif %}
+        </ul>
     </section>
 
     <aside>
@@ -28,7 +38,7 @@
             <h2>In this category...</h2>
     
             <div>
-                <a class="button" href="{{ path('add_post') }}?c={{ category.getId() }}">Create New Post</a>
+                <a class="button" href="{{ path('add_post') }}?c={{ category.getId() }}{% if currentPage > 1 %}&amp;cancel={{ path('view_category_page', {'id' : category.getId(), 'page':currentPage}) }}{% endif %}">Create New Post</a>
             </div>
         </section>
     </aside>

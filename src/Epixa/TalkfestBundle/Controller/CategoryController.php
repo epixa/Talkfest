@@ -44,7 +44,8 @@ class CategoryController extends Controller
         return array(
             'category' => $category,
             'posts' => $this->getPostService()->getByCategory($category, $page),
-            'page' => $page
+            'totalPages' => $this->getPostService()->getTotalPagesForCategory($category),
+            'currentPage' => $page
         );
     }
 

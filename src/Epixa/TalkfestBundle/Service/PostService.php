@@ -62,11 +62,11 @@ class PostService extends AbstractDoctrineService
     }
 
     /**
-     * Gets the total number of posts in the system
+     * Gets the total number of pages of posts in the system
      * 
-     * @return mixed
+     * @return int
      */
-    public function getTotalPosts()
+    public function getTotalPages()
     {
         $em = $this->getEntityManager();
 
@@ -75,21 +75,29 @@ class PostService extends AbstractDoctrineService
         $qb = $em->createQueryBuilder()->from('Epixa\TalkfestBundle\Entity\Post', 'post');
         $qb->select('count(post.id)');
         $repo->includeCategory($qb, false);
+        $totalPosts = $qb->getQuery()->getSingleScalarResult();
 
-        return $qb->getQuery()->getSingleScalarResult();
+        return ceil($totalPosts / $repo->getTotalPerPage());
     }
 
     /**
-     * Gets the total number of pages of posts in the system
+     * Gets the total number of pages of posts that are associated with the given category
      * 
+     * @param \Epixa\TalkfestBundle\Entity\Category $category
      * @return int
      */
-    public function getTotalPages()
+    public function getTotalPagesForCategory(Category $category)
     {
+        $em = $this->getEntityManager();
+
         /* @var \Epixa\TalkfestBundle\Repository\PostRepository $repo */
-        $repo = $this->getEntityManager()->getRepository('Epixa\TalkfestBundle\Entity\Post');
-        
-        return ceil($this->getTotalPosts() / $repo->getTotalPerPage());
+        $repo = $em->getRepository('Epixa\TalkfestBundle\Entity\Post');
+        $qb = $em->createQueryBuilder()->from('Epixa\TalkfestBundle\Entity\Post', 'post');
+        $qb->select('count(post.id)');
+        $repo->restrictToCategory($qb, $category);
+        $totalPosts = $qb->getQuery()->getSingleScalarResult();
+
+        return ceil($totalPosts / $repo->getTotalPerPage());
     }
 
     /**
