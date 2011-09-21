@@ -21,7 +21,7 @@
         {% endif %}
     </section>
 
-    <section id="edit_comment" class="form">
+    <section id="delete_post" class="form">
         <h2>Are you sure you want to delete this post?</h2>
 
         <form action="{{ path('delete_post', {'id' : post.getId()}) }}" method="post">

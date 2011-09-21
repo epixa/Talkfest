@@ -1,11 +1,22 @@
 {% extends 'EpixaTalkfestBundle::layout.html.twig' %}
 
+{% block title %}Edit Category - {{ parent() }}{% endblock %}
+
+{% block bodyClass %}{{ parent() }} split{% endblock %}
+
 {% block content %}
-    <p>Edit Category</p>
+    <section id="edit_category" class="form">
+        <h2>Edit Category</h2>
 
-    <form action="{{ path('edit_category', {'id' : category.getId()}) }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+        <form action="{{ path('edit_category', {'id' : category.getId()}) }}" method="post" {{ form_enctype(form) }}>
+            <fieldset>
+                {{ form_widget(form) }}
+            </fieldset>
 
-        <input type="submit" value="Update" />
-    </form>
+            <fieldset class="options">
+                <input type="submit" value="Update" /> or
+                <a href="{{ path('view_category', {'id': category.getId()}) }}">cancel</a>
+            </fieldset>
+        </form>
+    </section>
 {% endblock %}

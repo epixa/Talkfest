@@ -373,6 +373,10 @@ ul.pagination li a:hover {
     margin-top: 20px;
 }
 
+#delete_post {
+    margin-top: 20px;
+}
+
 .comments {
     font-size: 12px;
     padding: 15px 0 0 5px;

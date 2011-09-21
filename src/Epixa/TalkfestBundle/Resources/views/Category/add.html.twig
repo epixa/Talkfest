@@ -3,7 +3,7 @@
 {% block bodyClass %}{{ parent() }} split{% endblock %}
 
 {% block content %}
-    <section id="add_post" class="form">
+    <section id="add_category" class="form">
         <h2>Add Category</h2>
 
         <form action="{{ path('add_category') }}" method="post" {{ form_enctype(form) }}>
