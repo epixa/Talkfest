@@ -186,6 +186,31 @@ aside ul.fancy li:last-child {
     background-color: #147;
 }
 
+ul.pagination {
+    list-style: none;
+    margin: 15px 0;
+    padding: 0;
+}
+
+ul.pagination li {
+    display: inline;
+    font-size: 13px;
+    margin: 0;
+    padding: 0 5px 0 0;
+}
+
+ul.pagination li:last-child {
+    padding-right: 0;
+}
+
+ul.pagination li a {
+    text-decoration: none;
+}
+
+ul.pagination li a:hover {
+    text-decoration: underline;
+}
+
 .comment {
     font-size: 14px;
 }

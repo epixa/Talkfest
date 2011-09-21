@@ -22,6 +22,40 @@ use Doctrine\ORM\EntityRepository,
 class PostRepository extends EntityRepository
 {
     /**
+     * @var int
+     */
+    protected $totalPerPage = 25;
+
+
+    /**
+     * Sets the maximum number of posts to show on any given page
+     *
+     * @throws \InvalidArgumentException If $total is less than 1
+     * @param $total
+     * @return PostRepository *Fluent interface*
+     */
+    public function setTotalPerPage($total)
+    {
+        $total = (int)$total;
+        if ($total < 1) {
+            throw new \InvalidArgumentException('Total posts per page must be at least 1');
+        }
+        
+        $this->totalPerPage = (int)$total;
+        return $this;
+    }
+
+    /**
+     * Gets the maximum number of posts to show on any given page
+     * 
+     * @return int
+     */
+    public function getTotalPerPage()
+    {
+        return $this->totalPerPage;
+    }
+    
+    /**
      * Gets the basic query builder for retrieving post entities
      *
      * @return \Doctrine\ORM\QueryBuilder
@@ -35,11 +69,15 @@ class PostRepository extends EntityRepository
      * Includes the post's category details with the query
      * 
      * @param \Doctrine\ORM\QueryBuilder $qb
+     * @param bool $returnCategoryDetails
      * @return void
      */
-    public function includeCategory(QueryBuilder $qb)
+    public function includeCategory(QueryBuilder $qb, $returnCategoryDetails = true)
     {
-        $qb->addSelect('category');
+        if ($returnCategoryDetails) {
+            $qb->addSelect('category');
+        }
+
         $qb->join('post.category', 'category');
     }
 
@@ -61,11 +99,11 @@ class PostRepository extends EntityRepository
      *
      * @param \Doctrine\ORM\QueryBuilder $qb
      * @param integer $page
-     * @param integer $max
      * @return void
      */
-    public function restrictToPage(QueryBuilder $qb, $page, $max = 25)
+    public function restrictToPage(QueryBuilder $qb, $page)
     {
+        $max = $this->getTotalPerPage();
         $qb->setMaxResults($max);
         $qb->setFirstResult($max * ($page - 1));
     }

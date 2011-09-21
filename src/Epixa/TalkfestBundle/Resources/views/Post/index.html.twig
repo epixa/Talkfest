@@ -20,6 +20,16 @@
             </li>
         {% endfor %}
         </ul>
+
+        <ul class="pagination">
+        {% if currentPage > 1 %}
+            <li><a href="{{ path('post_index_page', {'page':currentPage - 1}) }}">Prev</a></li>
+        {% endif %}
+
+        {% if totalPages > currentPage %}
+            <li><a href="{{ path('post_index_page', {'page':currentPage + 1}) }}">Next</a></li>
+        {% endif %}
+        </ul>
     </section>
 
     <aside>
@@ -38,7 +48,7 @@
 
         <section>
             <div>
-                <a class="button" href="{{ path('add_post') }}{% if page > 1 %}?cancel={{ path('post_index_page', {'page':page}) }}{% endif %}">Create New Post</a>
+                <a class="button" href="{{ path('add_post') }}{% if currentPage > 1 %}?cancel={{ path('post_index_page', {'page':currentPage}) }}{% endif %}">Create New Post</a>
             </div>
         </section>
     </aside>

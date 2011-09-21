@@ -40,7 +40,8 @@ class PostController extends Controller
         return array(
             'categories' => $this->getCategoryService()->getAll(),
             'posts' => $this->getPostService()->getAll($page),
-            'page' => $page
+            'totalPages' => $this->getPostService()->getTotalPages(),
+            'currentPage' => $page
         );
     }
     
