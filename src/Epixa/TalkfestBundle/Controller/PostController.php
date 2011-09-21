@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Symfony\Component\HttpFoundation\Request,
     JMS\SecurityExtraBundle\Annotation\Secure,
     Epixa\TalkfestBundle\Entity\Post,
+    Epixa\TalkfestBundle\Entity\User,
     Epixa\TalkfestBundle\Form\Type\PostType;
 
 /**
@@ -50,14 +51,14 @@ class PostController extends Controller
      * @Template()
      *
      * @param integer $id   The unique identifier of the requested post
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @return array
      */
-    public function viewAction($id)
+    public function viewAction($id, Request $request)
     {
         $post = $this->getPostService()->get($id);
 
-        $addCommentContent = '';
-        if ($this->get('security.context')->isGranted('CREATE', '@EpixaTalkfestBundle:Comment:add')) {
+        if ($this->get('security.context')->getToken()->getUser() instanceof User) {
             /* @var \Symfony\Component\HttpFoundation\Response $addCommentResponse */
             $addCommentResponse = $this->forward('EpixaTalkfestBundle:Comment:add', array('post' => $post));
             if ($addCommentResponse->isRedirection()) {
@@ -65,6 +66,11 @@ class PostController extends Controller
             } else if ($addCommentResponse->isSuccessful()) {
                 $addCommentContent = $addCommentResponse->getContent();
             }
+        }
+
+        // still nothing?
+        if (!isset($addCommentContent)) {
+            $addCommentContent = $this->renderView('EpixaTalkfestBundle:Comment:login-required.html.twig');
         }
 
         return array(

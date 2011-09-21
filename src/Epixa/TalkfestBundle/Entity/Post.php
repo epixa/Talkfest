@@ -155,7 +155,7 @@ class Post
      *
      * @throws \InvalidArgumentException
      * @param \DateTime|string|integer $date
-     * @return StandardPost *Fluent interface*
+     * @return Post *Fluent interface*
      */
     public function setDateCreated($date)
     {

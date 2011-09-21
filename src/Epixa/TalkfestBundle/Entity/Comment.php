@@ -46,6 +46,13 @@ class Comment
     protected $post;
 
     /**
+     * @ORM\Column(name="date_created", type="datetime")
+     * @Assert\NotBlank()
+     * @var \DateTime
+     */
+    protected $dateCreated;
+
+    /**
      * Author of the comment
      *
      * @ORM\ManyToOne(targetEntity="Epixa\TalkfestBundle\Entity\User")
@@ -64,6 +71,7 @@ class Comment
      */
     public function __construct(Post $post, User $author)
     {
+        $this->setDateCreated('now');
         $this->setPost($post);
         $this->setAuthor($author);
     }
@@ -120,6 +128,40 @@ class Comment
     public function getPost()
     {
         return $this->post;
+    }
+
+    /**
+     * Gets the date that this entity was created
+     *
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * Sets the date this entity was created
+     *
+     * @throws \InvalidArgumentException
+     * @param \DateTime|string|integer $date
+     * @return Comment *Fluent interface*
+     */
+    public function setDateCreated($date)
+    {
+        if (is_string($date)) {
+            $date = new \DateTime($date);
+        } else if (is_int($date)) {
+            $date = new \DateTime(sprintf('@%d', $date));
+        } else if (!$date instanceof \DateTime) {
+            throw new \InvalidArgumentException(sprintf(
+                'Expecting string, integer or DateTime, but got `%s`',
+                is_object($date) ? get_class($date) : gettype($date)
+            ));
+        }
+
+        $this->dateCreated = $date;
+        return $this;
     }
 
     /**

@@ -18,13 +18,19 @@
         {% endif %}
     </section>
 
-    {{ addCommentForm | raw }}
-
     <section class="comments">
         {% for comment in comments %}
             <section id="comment-{{ comment.getId() }}" class="{{ cycle(['odd', 'even'], loop.index) }} comment">
-                {{ comment.getContent() }}
+                <section class="author">
+                    <a href="">{{ comment.getAuthor().getUsername() }}</a> posted on {{ comment.getDateCreated().format('F d, Y \\a\\t g:i a') }}
+                </section>
+
+                <section class="content">
+                    {{ comment.getContent() }}
+                </section>
             </section>
         {% endfor %}
     </section>
+
+    {{ addCommentForm | raw }}
 {% endblock %}
